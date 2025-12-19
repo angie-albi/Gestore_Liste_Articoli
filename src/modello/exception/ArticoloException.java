@@ -1,5 +1,9 @@
 package modello.exception;
 
-public class ArticoloException {
-
+//@SuppressWarnings("serial")
+public class ArticoloException extends Exception{
+	
+	public ArticoloException(String messaggio) {
+        super(messaggio);
+    }
 }
