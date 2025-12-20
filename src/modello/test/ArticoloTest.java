@@ -27,13 +27,13 @@ class ArticoloTest {
 		assertEquals(10.00 , a1.getPrezzo(), 0.001); 
 		assertEquals("Urgente!", a1.getNota());
 		
-		a2 = new Articolo("Pane", "Casa", 10);
+		a2 = new Articolo("Pane", "Cibo", 10);
 		assertEquals("Pane", a2.getNome());
 		assertEquals("Cibo", a2.getCategoria());
 		assertEquals(10.00 , a2.getPrezzo(), 0.001);
 		assertEquals("", a2.getNota());
 		
-		a3 = new Articolo("Acqua", "Lavoro");
+		a3 = new Articolo("Acqua", "Cibo");
 		assertEquals("Acqua", a3.getNome());
 		assertEquals("Cibo", a3.getCategoria());
 		assertEquals(0.00 , a3.getPrezzo(), 0.001);
@@ -87,6 +87,22 @@ class ArticoloTest {
 	}
 	
 	@Test
+	public void testSettersValoriDiDefault() throws ArticoloException {
+	    a1.setCategoria(null);
+	    assertEquals("Non categorizzato", a1.getCategoria());
+
+	    a1.setCategoria("");
+	    assertEquals("Non categorizzato", a1.getCategoria());
+
+	    a1.setNota(null);
+	    assertEquals("", a1.getNota());
+	    
+	    assertThrows(ArticoloException.class, () -> {
+	        a1.setNome("");
+	    });
+	}
+	
+	@Test
 	public void testEquals() throws ArticoloException {
 		a2 = new Articolo("Latte", "Cibo", 10.00 , "Urgente!"); // stessi dati
 		a3 = new Articolo("Latte", "Casa", 10.00, "Urgente!"); 	// diversa categoria
@@ -99,6 +115,7 @@ class ArticoloTest {
 		
 		assertFalse(a1.equals(a3));
 		assertFalse(a1.equals(a4));
+		assertFalse(a1.equals(null));
 	}
 	
 	@Test

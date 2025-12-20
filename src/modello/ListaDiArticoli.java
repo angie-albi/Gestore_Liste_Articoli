@@ -79,7 +79,7 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 	
 	//Numero elementi cancellati
 	public int numElCanc() {
-		return articoli.size();
+		return articoliCancellati.size();
 	}
 	
 	// Inserisci Articolo
