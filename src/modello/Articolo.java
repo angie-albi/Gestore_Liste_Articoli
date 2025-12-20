@@ -98,7 +98,7 @@ public class Articolo{
 	    
 	    Articolo articolo = (Articolo) obj;
 	    
-	    return nome.equals(articolo.getNome()) && prezzo==articolo.prezzo && categoria.equals(articolo.categoria) && nota.equals(articolo.nota);
+	    return nome.equals(articolo.getNome()) && Double.compare(prezzo, articolo.prezzo) == 0 && categoria.equals(articolo.categoria) && nota.equals(articolo.nota);
 	}
 	
 	// toString

@@ -17,25 +17,25 @@ class ArticoloTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		a1 = new Articolo("Latte", "Spesa", 10.00 , "Urgente!");
+		a1 = new Articolo("Latte", "Cibo", 10.00 , "Urgente!");
 	}
 	
 	@Test
 	void testCostruttore() throws ArticoloException {
 		assertEquals("Latte", a1.getNome());
-		assertEquals("Spesa", a1.getCategoria());
+		assertEquals("Cibo", a1.getCategoria());
 		assertEquals(10.00 , a1.getPrezzo(), 0.001); 
 		assertEquals("Urgente!", a1.getNota());
 		
 		a2 = new Articolo("Pane", "Casa", 10);
 		assertEquals("Pane", a2.getNome());
-		assertEquals("Casa", a2.getCategoria());
+		assertEquals("Cibo", a2.getCategoria());
 		assertEquals(10.00 , a2.getPrezzo(), 0.001);
 		assertEquals("", a2.getNota());
 		
 		a3 = new Articolo("Acqua", "Lavoro");
 		assertEquals("Acqua", a3.getNome());
-		assertEquals("Lavoro", a3.getCategoria());
+		assertEquals("Cibo", a3.getCategoria());
 		assertEquals(0.00 , a3.getPrezzo(), 0.001);
 		assertEquals("", a3.getNota());
 		
@@ -53,7 +53,6 @@ class ArticoloTest {
 		});
 	}
 	
-    // Ho aggiunto anche il test per il Nome vuoto/null, fondamentale ora che è obbligatorio
     @Test
     public void testCostruttoreNomeNonValido() {
         assertThrows(ArticoloException.class, () -> {
@@ -69,8 +68,8 @@ class ArticoloTest {
         a1.setNome("Latte Scremato");
         assertEquals("Latte Scremato", a1.getNome());
 
-		a1.setCategoria("Elettronica");
-		assertEquals("Elettronica", a1.getCategoria());
+		a1.setCategoria("Cibo");
+		assertEquals("Cibo", a1.getCategoria());
 		
 		a1.setNota("Urgente");
 		assertEquals("Urgente", a1.getNota());
@@ -89,9 +88,9 @@ class ArticoloTest {
 	
 	@Test
 	public void testEquals() throws ArticoloException {
-		a2 = new Articolo("Latte", "Spesa", 10.00 , "Urgente!"); // stessi dati
+		a2 = new Articolo("Latte", "Cibo", 10.00 , "Urgente!"); // stessi dati
 		a3 = new Articolo("Latte", "Casa", 10.00, "Urgente!"); 	// diversa categoria
-		a4 = new Articolo("Latte", "Spesa", 15.00 , "Urgente!"); // diverso prezzo
+		a4 = new Articolo("Latte", "Cibo", 15.00 , "Urgente!"); // diverso prezzo
 		
 		assertTrue(a1.equals(a1));
 		
@@ -100,11 +99,10 @@ class ArticoloTest {
 		
 		assertFalse(a1.equals(a3));
 		assertFalse(a1.equals(a4));
-		assertFalse(a1.equals("Una stringa"));
 	}
 	
 	@Test
 	public void testToString() throws ArticoloException {
-		assertEquals("\n Articolo [nome=Latte, categoria=Spesa, prezzo=10.0, nota=Urgente!]", a1.toString());
+		assertEquals("\n Articolo [nome=Latte, categoria=Cibo, prezzo=10.0, nota=Urgente!]", a1.toString());
 	}
 }

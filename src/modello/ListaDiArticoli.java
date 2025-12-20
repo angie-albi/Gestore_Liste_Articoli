@@ -2,7 +2,9 @@ package modello;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
+
 
 import modello.exception.ArticoloException;
 import modello.exception.ListaDiArticoliException;
@@ -11,18 +13,18 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 	
 	// VARIABILI
 	private String nome;
-	private ArrayList<Articolo> articoli;
-	private ArrayList<Articolo> articoliCancellati;
+	private List<Articolo> articoli;
+	private List<Articolo> articoliCancellati;
 	
-	// ITERATOR
+	// ITERATORE
 	@Override
 	public Iterator<Articolo> iterator() {
 		return new IteratoreArticoli();
 	}
 	
 	private class IteratoreArticoli implements Iterator<Articolo>{
-		private Iterator<Articolo> it1 = articoli.iterator();
-        private Iterator<Articolo> it2 = articoliCancellati.iterator();
+		private final Iterator<Articolo> it1 = articoli.iterator();
+        private final Iterator<Articolo> it2 = articoliCancellati.iterator();
         
 		@Override
 		public boolean hasNext() {
@@ -58,36 +60,114 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 		return nome;
 	}
 	
+//	// Controllo lista non sia vuota
+//	public void controlloLista() throws ListaDiArticoliException {
+//		if(articoli.isEmpty())
+//			throw new ListaDiArticoliException("La lista è vuota");
+//	}
+//	
+//	// Controllo lista cancellati non sia vuota
+//	public void controlloListaCancellati() throws ListaDiArticoliException {
+//		if(articoliCancellati.isEmpty())
+//			throw new ListaDiArticoliException("La lista dei cancellati è vuota");
+//	}
+	
+	// Numero elementi nella lista
+	public int numEl() {
+		return articoli.size();
+	}
+	
+	//Numero elementi cancellati
+	public int numElCanc() {
+		return articoli.size();
+	}
+	
 	// Inserisci Articolo
-	public boolean inserisciArticolo(Articolo a) {
+	public boolean inserisciArticolo(Articolo a) throws ListaDiArticoliException {
+		
 		if(articoli.contains(a))
-			return false;
+			throw new ListaDiArticoliException("Annuncio già presente");
+		
+		if(articoliCancellati.contains(a)) {
+			articoliCancellati.remove(a);
+		}
+		
 		return articoli.add(a);
 	}
 	
-	public boolean inserisciArticolo(String nome) throws ArticoloException {
+	public boolean inserisciArticolo(String nome) throws ArticoloException, ListaDiArticoliException {
 		return inserisciArticolo(new Articolo(nome));
 	}
 	
-	public boolean inserisciArticolo(String nome, String categoria) throws ArticoloException {
+	public boolean inserisciArticolo(String nome, String categoria) throws ArticoloException, ListaDiArticoliException {
 		return inserisciArticolo(new Articolo(nome, categoria));
 	}
 	
-	public boolean inserisciArticolo(String nome, String categoria, int prezzo) throws ArticoloException {
+	public boolean inserisciArticolo(String nome, String categoria, double prezzo) throws ArticoloException, ListaDiArticoliException {
 		return inserisciArticolo(new Articolo(nome, categoria, prezzo));
 	}
 	
-	public boolean inserisciArticolo(String nome, String categoria, int prezzo, String nota) throws ArticoloException {
+	public boolean inserisciArticolo(String nome, String categoria, double prezzo, String nota) throws ArticoloException, ListaDiArticoliException {
 		return inserisciArticolo(new Articolo(nome, categoria, prezzo, nota));
 	}
 	
 	// Ricerca Articolo: sia nella lista che nei cancellati
-	public ArrayList<Articolo> ricercaArticolo(String prefisso) {
+	public ArrayList<Articolo> ricercaArticolo(String prefisso){
 		ArrayList<Articolo> ris = new ArrayList<Articolo>();
 		
+		if(prefisso == null)
+			return ris;
+		
+		// normalizzazione prefisso
+		prefisso = prefisso.toLowerCase();
+		
 		for(Articolo a: this) 
-			if(a.getNome().startsWith(prefisso))
+			if(a.getNome().toLowerCase().startsWith(prefisso))
 				ris.add(a);
 		return ris;
+	}
+	
+	// Cancella Articolo
+	public void cancellaArticolo(Articolo a) throws ListaDiArticoliException {
+		if(articoli.contains(a)) {
+			articoli.remove(a);
+			articoliCancellati.add(a);
+		}
+		else {
+			throw new ListaDiArticoliException("Articolo non presente nella lista, è impossibile rimuoverlo");
+		}
+	}
+	
+	// Recupera Articolo
+	public void recuperaArticolo(Articolo a) throws ListaDiArticoliException{
+		if(articoliCancellati.isEmpty())
+			throw new ListaDiArticoliException("La lista dei cancellati è vuota");
+		
+		if(articoliCancellati.contains(a)) {
+			articoliCancellati.remove(a);
+			this.inserisciArticolo(a); // sono rpesenti i controlli necessari
+		}
+		else {
+			throw new ListaDiArticoliException("Articolo non presente nei cancellati, è impossibile recuperarlo");
+		}
+	}
+	
+	// Svuota Lista Cancellati 
+	public void svuotaCancellati() {
+		articoliCancellati.clear();
+	}
+	
+	// Calcolo prezzo totale
+	public double calcoloPrezzoTotale(){
+		double prezzoTotale = 0;
+		
+		if (articoli.isEmpty()) 
+			return 0.0;
+		
+		for(Articolo a: articoli) {
+			prezzoTotale += a.getPrezzo();
+		}
+		
+		return prezzoTotale;
 	}
 }
