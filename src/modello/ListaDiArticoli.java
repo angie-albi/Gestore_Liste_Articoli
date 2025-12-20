@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import modello.exception.ArticoloException;
+import modello.exception.ListaDiArticoliException;
+
 public class ListaDiArticoli implements Iterable<Articolo>{
 	
 	// VARIABILI
@@ -39,7 +42,11 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 	}
 	
 	// COSTRUTTORE
-	public ListaDiArticoli(String nome) {
+	public ListaDiArticoli(String nome) throws ListaDiArticoliException {
+		if (nome == null || nome.trim().isEmpty()) {
+            throw new ListaDiArticoliException("Il nome della lista non può essere vuoto");
+        }
+		
 		this.nome = nome;
 		this.articoli = new ArrayList<Articolo>();
 		this.articoliCancellati = new ArrayList<Articolo>();
@@ -53,17 +60,34 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 	
 	// Inserisci Articolo
 	public boolean inserisciArticolo(Articolo a) {
+		if(articoli.contains(a))
+			return false;
 		return articoli.add(a);
 	}
 	
-	
-	// Ricerca Articolo
-	
-	// Cancella Articolo
-	public boolean calcellaArticolo(Articolo a) {
-		if()
-		return articoliCancellati.add(a) || ;
+	public boolean inserisciArticolo(String nome) throws ArticoloException {
+		return inserisciArticolo(new Articolo(nome));
 	}
 	
+	public boolean inserisciArticolo(String nome, String categoria) throws ArticoloException {
+		return inserisciArticolo(new Articolo(nome, categoria));
+	}
 	
+	public boolean inserisciArticolo(String nome, String categoria, int prezzo) throws ArticoloException {
+		return inserisciArticolo(new Articolo(nome, categoria, prezzo));
+	}
+	
+	public boolean inserisciArticolo(String nome, String categoria, int prezzo, String nota) throws ArticoloException {
+		return inserisciArticolo(new Articolo(nome, categoria, prezzo, nota));
+	}
+	
+	// Ricerca Articolo: sia nella lista che nei cancellati
+	public ArrayList<Articolo> ricercaArticolo(String prefisso) {
+		ArrayList<Articolo> ris = new ArrayList<Articolo>();
+		
+		for(Articolo a: this) 
+			if(a.getNome().startsWith(prefisso))
+				ris.add(a);
+		return ris;
+	}
 }

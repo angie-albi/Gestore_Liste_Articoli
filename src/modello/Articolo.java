@@ -5,32 +5,45 @@ import modello.exception.ArticoloException;
 public class Articolo{
 
 	// VARIABILI
+	private String nome;
 	private String categoria;
 	private double prezzo;
 	private String nota;
 	
 	
 	// COSTRUTTORI
-	public Articolo(String categoria, double prezzo, String nota)throws ArticoloException {
+	public Articolo(String nome, String categoria, double prezzo, String nota)throws ArticoloException {
+	    this.setNome(nome);
 		this.setCategoria(categoria);
 		this.setPrezzo(prezzo);
 		this.setNota(nota);
 	}
 	
-	public Articolo(String categoria, double prezzo) throws ArticoloException {
-		this(categoria, prezzo, "");
+	public Articolo(String nome, String categoria, double prezzo) throws ArticoloException {
+		this(nome, categoria, prezzo, "");
 	}
 	
-	public Articolo(String categoria) throws ArticoloException {
-		this(categoria, 0, "");
+	public Articolo(String nome, String categoria) throws ArticoloException {
+		this(nome, categoria, 0, "");
 	}
 	
-	public Articolo() throws ArticoloException {
-		this("Non categorizzato", 0, "");
+	public Articolo(String nome) throws ArticoloException {
+		this(nome, "Non categorizzato", 0, "");
 	}
 	
 
 	// GETTERS e SETTERS
+	// Nome
+	public void setNome(String nome) throws ArticoloException {
+		if (nome == null || nome.trim().isEmpty()) {
+	        throw new ArticoloException("Il nome dell'articolo non può essere vuoto");
+	    }
+		this.nome=nome;
+	}
+	
+	public String getNome() {
+		return nome;
+	}
 	// Categoria
 	public String getCategoria() {
 		return categoria;
@@ -55,7 +68,6 @@ public class Articolo{
 
 	// Nota
 	public String getNota() {
-
 		return nota;
 	}
 
@@ -86,12 +98,12 @@ public class Articolo{
 	    
 	    Articolo articolo = (Articolo) obj;
 	    
-	    return prezzo==articolo.prezzo && categoria.equals(articolo.categoria) && nota.equals(articolo.nota);
+	    return nome.equals(articolo.getNome()) && prezzo==articolo.prezzo && categoria.equals(articolo.categoria) && nota.equals(articolo.nota);
 	}
 	
 	// toString
 	@Override
 	public String toString() {
-		return "/n Articolo [categoria=" + categoria + ", prezzo=" + prezzo + ", nota=" + nota + "]";
+		return "\n Articolo [nome=" + nome +", categoria=" + categoria + ", prezzo=" + prezzo + ", nota=" + nota + "]";
 	}
 }
