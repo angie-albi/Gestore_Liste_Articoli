@@ -84,7 +84,6 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 	
 	// Inserisci Articolo
 	public boolean inserisciArticolo(Articolo a) throws ListaDiArticoliException {
-		
 		if(articoli.contains(a))
 			throw new ListaDiArticoliException("Annuncio già presente");
 		
@@ -95,7 +94,7 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 		return articoli.add(a);
 	}
 	
-	public boolean inserisciArticolo(String nome) throws ArticoloException, ListaDiArticoliException {
+	public boolean inserisciArticolo(String nome) throws ListaDiArticoliException, ArticoloException {
 		return inserisciArticolo(new Articolo(nome));
 	}
 	
@@ -170,4 +169,12 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 		
 		return prezzoTotale;
 	}
+	
+	// toString
+	@Override
+	public String toString() {
+		return "ListaDiArticoli [nome=" + nome + ", articoli=" + articoli + ", articoliCancellati=" + articoliCancellati
+				+ "]";
+	}
+	
 }

@@ -111,6 +111,17 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
+	void testRicercaInclusiCancellati() throws ArticoloException, ListaDiArticoliException {
+	    riempiLista(l1);
+	    Articolo a = l1.ricercaArticolo("Latte").get(0);
+	    l1.cancellaArticolo(a); 
+	    
+	    ArrayList<Articolo> ris = l1.ricercaArticolo("Latte");
+	    assertEquals(1, ris.size());
+	    assertEquals("Latte", ris.get(0).getNome());
+	}
+	
+	@Test
 	void testCalcoloPrezzoTotale() throws ArticoloException, ListaDiArticoliException {
 		assertEquals(0.0, l1.calcoloPrezzoTotale(), 0.001);
 		
@@ -135,16 +146,52 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
-	void testIteratore() throws ArticoloException, ListaDiArticoliException {
-		riempiLista(l1);
-		Articolo a = l1.ricercaArticolo("Latte").get(0);
-		l1.cancellaArticolo(a);
-		
-		int count = 0;
-		for(Articolo art : l1) {
-			count++;
-		}
-		assertEquals(3, count);
+	void testInserimentoArticoloGiaCancellato() throws ArticoloException, ListaDiArticoliException {
+	    riempiLista(l1);
+	    Articolo a = l1.ricercaArticolo("Latte").get(0);
+	    l1.cancellaArticolo(a);
+	    
+	    assertTrue(l1.inserisciArticolo(a));
+	    
+	    assertEquals(3, l1.numEl()); 
+	    assertEquals(13.50, l1.calcoloPrezzoTotale(), 0.001);
+	}
+	
+	@Test
+	void testIteratoreContenuto() throws ArticoloException, ListaDiArticoliException {
+	    riempiLista(l1);
+	    Articolo a = l1.ricercaArticolo("Latte").get(0);
+	    l1.cancellaArticolo(a); 
+	    
+	    boolean trovatoLatte = false;
+	    boolean trovatoPane = false;
+	    
+	    for(Articolo art : l1) {
+	        if(art.getNome().equals("Latte")) trovatoLatte = true; // Era cancellato
+	        if(art.getNome().equals("Pane")) trovatoPane = true;   // È attivo
+	    }
+	    
+	    assertTrue(trovatoLatte, "L'iteratore deve mostrare anche gli articoli cancellati");
+	    assertTrue(trovatoPane, "L'iteratore deve mostrare gli articoli attivi");
+	}
+	
+	@Test
+	void testToString() throws ArticoloException, ListaDiArticoliException {
+	    ListaDiArticoli lista = new ListaDiArticoli("Spesa");
+	    Articolo a1 = new Articolo("Latte");
+	    Articolo a2 = new Articolo("Pane");
+	    
+	    lista.inserisciArticolo(a1);
+	    lista.inserisciArticolo(a2);
+	    lista.cancellaArticolo(a2);
+	    
+	    String risultato = lista.toString();
+	    
+	    assertTrue(risultato.contains("Spesa"));
+	    assertTrue(risultato.contains("Latte"));
+	    assertTrue(risultato.contains("Pane"));
+	    assertTrue(risultato.contains("articoli="));
+	    assertTrue(risultato.contains("articoliCancellati="));
 	}
 
 	void riempiLista(ListaDiArticoli l) throws ArticoloException, ListaDiArticoliException{
