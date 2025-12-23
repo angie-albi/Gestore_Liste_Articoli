@@ -5,18 +5,132 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import modello.Articolo;
 import modello.GestioneListe;
+import modello.ListaDiArticoli;
+import modello.exception.GestioneListeException;
 
 class GestioneListeTest {
-	
+
+	private ListaDiArticoli l1;
+	private Articolo a1;
+
 	@BeforeEach
 	void setUp() throws Exception {
-		GestioneListe g = new GestioneListe();
+		GestioneListe.reset();
+		l1 = new ListaDiArticoli("Spesa");
+		a1 = new Articolo("Latte", "Alimentari", 1.50);
+	}
+
+	@Test
+	void testInserisciLista() throws GestioneListeException {
+		assertTrue(GestioneListe.inserisciLista(l1));
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.inserisciLista(new ListaDiArticoli("Spesa"));
+		});
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.inserisciLista(null);
+		});
 	}
 	
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void testMatchLista() throws GestioneListeException {
+		GestioneListe.inserisciLista(l1);
+		
+		assertEquals(l1, GestioneListe.matchLista("Spesa"));
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.matchLista("Lavoro");
+		});
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.matchLista("");
+		});
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.matchLista(null);
+		});
 	}
 
+	@Test
+	void testCancellaLista() throws GestioneListeException {
+		GestioneListe.inserisciLista(l1);
+		
+		assertTrue(GestioneListe.cancellaLista("Spesa"));
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.matchLista("Spesa");
+		});
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.cancellaLista("NonEsiste");
+		});
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.cancellaLista("");
+		});
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.cancellaLista(null);
+		});
+	}
+
+	@Test
+	void testInserisciCategoria() throws GestioneListeException {
+		GestioneListe.inserisciCategoria("Elettronica");
+		assertTrue(GestioneListe.esisteCategoria("Elettronica"));
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.inserisciCategoria("Elettronica");
+		});
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.inserisciCategoria("");
+		});
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.inserisciCategoria(null);
+		});
+	}
+	
+	@Test
+	void testCancellaCategoria() throws GestioneListeException {
+		GestioneListe.inserisciCategoria("Bricolage");
+		
+		assertTrue(GestioneListe.cancellaCategoria("Bricolage"));
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.cancellaCategoria("Bricolage");
+		});
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.cancellaCategoria("Non categorizzato");
+		});
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.cancellaCategoria("");
+		});
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.cancellaCategoria(null);
+		});
+	}
+
+	@Test
+	void testInserisciArticolo() throws GestioneListeException {
+		assertTrue(GestioneListe.inserisciArticolo(a1));
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.inserisciArticolo(a1);
+		});
+	}
+
+	@Test
+	void testCancellaArticolo() throws GestioneListeException {
+		GestioneListe.inserisciArticolo(a1);
+		
+		assertTrue(GestioneListe.cancellaArticolo(a1));
+		
+		assertThrows(GestioneListeException.class, () -> {
+			GestioneListe.cancellaArticolo(a1);
+		});
+	}
 }

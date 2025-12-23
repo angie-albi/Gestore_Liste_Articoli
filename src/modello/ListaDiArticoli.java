@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 
 
 import modello.exception.ArticoloException;
+import modello.exception.GestioneListeException;
 import modello.exception.ListaDiArticoliException;
 
 public class ListaDiArticoli implements Iterable<Articolo>{
@@ -94,19 +95,19 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 		return articoli.add(a);
 	}
 	
-	public boolean inserisciArticolo(String nome) throws ListaDiArticoliException, ArticoloException {
+	public boolean inserisciArticolo(String nome) throws ListaDiArticoliException, ArticoloException, GestioneListeException {
 		return inserisciArticolo(new Articolo(nome));
 	}
 	
-	public boolean inserisciArticolo(String nome, String categoria) throws ArticoloException, ListaDiArticoliException {
+	public boolean inserisciArticolo(String nome, String categoria) throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 		return inserisciArticolo(new Articolo(nome, categoria));
 	}
 	
-	public boolean inserisciArticolo(String nome, String categoria, double prezzo) throws ArticoloException, ListaDiArticoliException {
+	public boolean inserisciArticolo(String nome, String categoria, double prezzo) throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 		return inserisciArticolo(new Articolo(nome, categoria, prezzo));
 	}
 	
-	public boolean inserisciArticolo(String nome, String categoria, double prezzo, String nota) throws ArticoloException, ListaDiArticoliException {
+	public boolean inserisciArticolo(String nome, String categoria, double prezzo, String nota) throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 		return inserisciArticolo(new Articolo(nome, categoria, prezzo, nota));
 	}
 	

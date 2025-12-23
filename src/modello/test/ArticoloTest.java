@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import modello.Articolo;
 import modello.exception.ArticoloException;
+import modello.exception.GestioneListeException;
 
 class ArticoloTest {
 	
@@ -21,7 +22,7 @@ class ArticoloTest {
 	}
 	
 	@Test
-	void testCostruttore() throws ArticoloException {
+	void testCostruttore() throws ArticoloException, GestioneListeException {
 		assertEquals("Latte", a1.getNome());
 		assertEquals("Cibo", a1.getCategoria());
 		assertEquals(10.00 , a1.getPrezzo(), 0.001); 
@@ -64,7 +65,7 @@ class ArticoloTest {
     }
 
 	@Test
-	public void testSetters() throws ArticoloException {
+	public void testSetters() throws ArticoloException, GestioneListeException {
         a1.setNome("Latte Scremato");
         assertEquals("Latte Scremato", a1.getNome());
 
@@ -87,7 +88,7 @@ class ArticoloTest {
 	}
 	
 	@Test
-	public void testSettersValoriDiDefault() throws ArticoloException {
+	public void testSettersValoriDiDefault() throws ArticoloException, GestioneListeException {
 	    a1.setCategoria(null);
 	    assertEquals("Non categorizzato", a1.getCategoria());
 
@@ -103,7 +104,7 @@ class ArticoloTest {
 	}
 	
 	@Test
-	public void testEquals() throws ArticoloException {
+	public void testEquals() throws ArticoloException, GestioneListeException {
 		a2 = new Articolo("Latte", "Cibo", 10.00 , "Urgente!"); // stessi dati
 		a3 = new Articolo("Latte", "Casa", 10.00, "Urgente!"); 	// diversa categoria
 		a4 = new Articolo("Latte", "Cibo", 15.00 , "Urgente!"); // diverso prezzo

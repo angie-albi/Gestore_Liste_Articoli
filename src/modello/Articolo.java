@@ -1,6 +1,7 @@
 package modello;
 
 import modello.exception.ArticoloException;
+import modello.exception.GestioneListeException;
 
 public class Articolo{
 
@@ -12,22 +13,22 @@ public class Articolo{
 	
 	
 	// COSTRUTTORI
-	public Articolo(String nome, String categoria, double prezzo, String nota)throws ArticoloException {
+	public Articolo(String nome, String categoria, double prezzo, String nota)throws ArticoloException, GestioneListeException {
 	    this.setNome(nome);
 		this.setCategoria(categoria);
 		this.setPrezzo(prezzo);
 		this.setNota(nota);
 	}
 	
-	public Articolo(String nome, String categoria, double prezzo) throws ArticoloException {
+	public Articolo(String nome, String categoria, double prezzo) throws ArticoloException, GestioneListeException {
 		this(nome, categoria, prezzo, "");
 	}
 	
-	public Articolo(String nome, String categoria) throws ArticoloException {
+	public Articolo(String nome, String categoria) throws ArticoloException, GestioneListeException {
 		this(nome, categoria, 0, "");
 	}
 	
-	public Articolo(String nome) throws ArticoloException {
+	public Articolo(String nome) throws ArticoloException, GestioneListeException {
 		this(nome, "Non categorizzato", 0, "");
 	}
 	
@@ -49,9 +50,14 @@ public class Articolo{
 		return categoria;
 	}
 
-	public void setCategoria(String categoria) {
+	public void setCategoria(String categoria) throws GestioneListeException {
 		if(categoria==null || categoria.isEmpty()) {
 			categoria = "Non categorizzato";
+		}
+		
+		// se non esiste la categoria la inserisco
+		if(!GestioneListe.esisteCategoria(categoria)){
+			GestioneListe.inserisciCategoria(categoria);
 		}
 		
 		this.categoria = categoria;

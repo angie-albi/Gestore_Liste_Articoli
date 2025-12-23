@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import modello.Articolo;
 import modello.ListaDiArticoli;
 import modello.exception.ArticoloException;
+import modello.exception.GestioneListeException;
 import modello.exception.ListaDiArticoliException;
 
 class ListaDiArticoliTest {
@@ -39,7 +40,7 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
-	void testInserisciArticoli() throws ArticoloException, ListaDiArticoliException {
+	void testInserisciArticoli() throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 		assertTrue(l1.inserisciArticolo(new Articolo("Latte")));
 		assertTrue(l1.inserisciArticolo("Pane", "Cibo"));
 		assertTrue(l1.inserisciArticolo("Vino", "Bevande", 10));
@@ -53,7 +54,7 @@ class ListaDiArticoliTest {
 	}
 
 	@Test
-	void testCancellaArticolo() throws ArticoloException, ListaDiArticoliException {
+	void testCancellaArticolo() throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 		riempiLista(l1);
 		Articolo a = l1.ricercaArticolo("Latte").get(0);
 		
@@ -70,7 +71,7 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
-	void testRecuperaArticolo() throws ArticoloException, ListaDiArticoliException {
+	void testRecuperaArticolo() throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 		riempiLista(l1);
 		Articolo a = l1.ricercaArticolo("Latte").get(0);
 		
@@ -90,7 +91,7 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
-	void testRicercaArticolo() throws ArticoloException, ListaDiArticoliException {
+	void testRicercaArticolo() throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 		riempiLista(l1);
 		
 		ArrayList<Articolo> ris = l1.ricercaArticolo("la");
@@ -111,7 +112,7 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
-	void testRicercaInclusiCancellati() throws ArticoloException, ListaDiArticoliException {
+	void testRicercaInclusiCancellati() throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 	    riempiLista(l1);
 	    Articolo a = l1.ricercaArticolo("Latte").get(0);
 	    l1.cancellaArticolo(a); 
@@ -122,7 +123,7 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
-	void testCalcoloPrezzoTotale() throws ArticoloException, ListaDiArticoliException {
+	void testCalcoloPrezzoTotale() throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 		assertEquals(0.0, l1.calcoloPrezzoTotale(), 0.001);
 		
 		riempiLista(l1);
@@ -133,7 +134,7 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
-	void testSvuotaCancellati() throws ArticoloException, ListaDiArticoliException {
+	void testSvuotaCancellati() throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 		riempiLista(l1);
 		Articolo a = l1.ricercaArticolo("Latte").get(0);
 		l1.cancellaArticolo(a);
@@ -146,7 +147,7 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
-	void testInserimentoArticoloGiaCancellato() throws ArticoloException, ListaDiArticoliException {
+	void testInserimentoArticoloGiaCancellato() throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 	    riempiLista(l1);
 	    Articolo a = l1.ricercaArticolo("Latte").get(0);
 	    l1.cancellaArticolo(a);
@@ -158,7 +159,7 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
-	void testIteratoreContenuto() throws ArticoloException, ListaDiArticoliException {
+	void testIteratoreContenuto() throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 	    riempiLista(l1);
 	    Articolo a = l1.ricercaArticolo("Latte").get(0);
 	    l1.cancellaArticolo(a); 
@@ -176,7 +177,7 @@ class ListaDiArticoliTest {
 	}
 	
 	@Test
-	void testToString() throws ArticoloException, ListaDiArticoliException {
+	void testToString() throws ArticoloException, ListaDiArticoliException, GestioneListeException {
 	    ListaDiArticoli lista = new ListaDiArticoli("Spesa");
 	    Articolo a1 = new Articolo("Latte");
 	    Articolo a2 = new Articolo("Pane");
@@ -194,7 +195,7 @@ class ListaDiArticoliTest {
 	    assertTrue(risultato.contains("articoliCancellati="));
 	}
 
-	void riempiLista(ListaDiArticoli l) throws ArticoloException, ListaDiArticoliException{
+	void riempiLista(ListaDiArticoli l) throws ArticoloException, ListaDiArticoliException, GestioneListeException{
 		l.inserisciArticolo("Latte", "Alimentari", 1.50);
 		l.inserisciArticolo("Pane", "Alimentari", 2.00);
 		l.inserisciArticolo("Vino", "Bevande", 10.00);

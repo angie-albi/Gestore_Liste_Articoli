@@ -13,11 +13,7 @@ public class GestioneListe {
 	private static List<Articolo> articoli; 				//tutti gli articoli
 	
 	static {
-		listeArticoli = new ArrayList<ListaDiArticoli>();
-		categorie = new ArrayList<String>();
-		articoli = new ArrayList<Articolo>();
-		
-		categorie.add("Non categorizzato");
+		reset();	
 	}
 	
 	// METODI
@@ -25,15 +21,21 @@ public class GestioneListe {
 	// - Lista
 	// insersci lista
 	public static boolean inserisciLista(ListaDiArticoli list) throws GestioneListeException{
-		if (listeArticoli.contains(list))
-			throw new GestioneListeException("Lista già presente");
+		if (list == null)
+			throw new GestioneListeException("La lista non può essere nulla");
+			
+		for (ListaDiArticoli l : listeArticoli) {
+			if (l.getNome().equals(list.getNome())) {
+				throw new GestioneListeException("Lista già presente");
+			}
+		}
 		
 		return listeArticoli.add(list);
 	}	
 		
 	// cancella lista
-	public static void cancellaLista(String nome) throws GestioneListeException {
-		if(nome == null || nome.isEmpty()) 
+	public static boolean cancellaLista(String nome) throws GestioneListeException {
+		if(nome== null ||nome.trim().isEmpty()) 
 			throw new GestioneListeException("Il nome della lista non può essere vuoto");
 		
 		ListaDiArticoli listCanc =  null;
@@ -48,11 +50,11 @@ public class GestioneListe {
 		if(listCanc == null) 
 			throw new GestioneListeException("La lista non è presente");
 		
-		listeArticoli.remove(listCanc);
+		return listeArticoli.remove(listCanc);
 	}
 	
 	public static ListaDiArticoli matchLista(String nome) throws GestioneListeException {
-		if(nome == null || nome.isEmpty()) 
+		if(nome== null ||nome.trim().isEmpty()) 
 			throw new GestioneListeException("Il nome dellalista non può essere vuoto");
 		
 		for (ListaDiArticoli list: listeArticoli) {
@@ -67,24 +69,32 @@ public class GestioneListe {
 	
 	// - Categoria
 	// aggiunta categoria
-	public static boolean inserisciCategoria(String nome) throws GestioneListeException {
-		if(nome == null || nome.isEmpty()) 
-		throw new GestioneListeException("Il nome della categoria non può essere vuoto");
+	public static void inserisciCategoria(String nome) throws GestioneListeException {
+		if(nome== null ||nome.trim().isEmpty()) 
+			throw new GestioneListeException("Il nome della categoria non può essere vuoto");
 		
 		if(categorie.contains(nome)) 
 			throw new GestioneListeException("Categoria già presente");
 		
-		return categorie.add(nome);
+		categorie.add(nome);
 	}
 	
-	public boolean cancellaCategoria(String nome) throws GestioneListeException {
-		if(nome == null || nome.isEmpty()) 
+	public static boolean cancellaCategoria(String nome) throws GestioneListeException {
+		if(nome== null ||nome.trim().isEmpty()) 
 			throw new GestioneListeException("Il nome della categoria non può essere vuoto");
 		
 		if(!categorie.contains(nome)) 
 			throw new GestioneListeException("Categoria non trovata");
 		
+		if(nome.equals("Non categorizzato"))
+			throw new GestioneListeException("Non è possibile cancellare la categoria di default");
+		
 		return categorie.remove(nome);
+	}
+	
+	// esiste categoria
+	public static boolean esisteCategoria(String nome) {
+	    return categorie.contains(nome);
 	}
 	
 	// - Articoli
@@ -101,5 +111,14 @@ public class GestioneListe {
 			throw new GestioneListeException("Articolo non trovato");
 		
 		return articoli.remove(a);
+	}
+	
+	// - Reset
+	public static void reset() {
+		listeArticoli = new ArrayList<ListaDiArticoli>();
+		categorie = new ArrayList<String>();
+		articoli = new ArrayList<Articolo>();
+		
+		categorie.add("Non categorizzato");
 	}
 }
