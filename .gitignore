@@ -1,9 +1,9 @@
 bin/
 .metadata/
-
 .project
 .classpath
 .settings/
+doc/
 
 #.class
 #.log

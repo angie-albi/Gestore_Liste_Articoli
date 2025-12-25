@@ -35,6 +35,12 @@ public class GestioneListe {
 	 */
 	public static final String CATEGORIA_DEFAULT = "Non categorizzato";
 	
+	/**
+	 * Costruttore privato per impedire l'istanziazione della classe
+	 */
+	private GestioneListe() {
+	}
+	
 	static {
 		reset();	
 	}
