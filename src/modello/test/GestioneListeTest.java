@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 import modello.Articolo;
 import modello.GestioneListe;
 import modello.ListaDiArticoli;
+import modello.exception.ArticoloException;
 import modello.exception.GestioneListeException;
+import modello.exception.ListaDiArticoliException;
 
 /**
  * La classe {@code GestioneListeTest} contiene i test unitari per verificare la logica della classe {@code GestioneListe}
@@ -55,6 +57,33 @@ class GestioneListeTest {
 		assertThrows(GestioneListeException.class, () -> {
 			GestioneListe.inserisciLista(null);
 		});
+	}
+	
+	/**
+	 * Verifica la condivisione degli oggetti {@link Articolo} tra diverse 
+	 * istanze di {@link ListaDiArticoli}
+	 * 
+	 * @throws ArticoloException Se i dati dell'articolo (nome o prezzo) non sono validi
+	 * @throws ListaDiArticoliException Se l'articolo è già presente nella lista 
+	 * o se si verificano errori durante l'inserimento
+	 */
+	@Test
+	void testCondivisioneArticoliTraListe() throws ArticoloException, ListaDiArticoliException{
+	    Articolo a1 = new Articolo("Latte", "Alimentari", 1.50);
+	    
+	    ListaDiArticoli listaCasa = new ListaDiArticoli("Spesa Casa");
+	    ListaDiArticoli listaUfficio = new ListaDiArticoli("Spesa Ufficio");
+	    
+	    listaCasa.inserisciArticolo(a1);
+	    listaUfficio.inserisciArticolo(a1);
+	    
+	    assertEquals(1.50, listaCasa.calcoloPrezzoTotale(), 0.001);
+	    assertEquals(1.50, listaUfficio.calcoloPrezzoTotale(), 0.001);
+	    
+	    a1.setPrezzo(2.00);
+	    
+	    assertEquals(2.00, listaCasa.calcoloPrezzoTotale(), 0.001);
+	    assertEquals(2.00, listaUfficio.calcoloPrezzoTotale(), 0.001);
 	}
 	
 	/**
