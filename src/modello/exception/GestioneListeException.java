@@ -5,6 +5,8 @@ package modello.exception;
  * 
  * @author Angie Albitres
  */
+
+@SuppressWarnings("serial")
 public class GestioneListeException extends Exception{
 	/**
 	 * Crea una nuova eccezione con il messaggio di errore indicato

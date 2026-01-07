@@ -19,9 +19,9 @@ import modello.exception.ArticoloException;
 public class Articolo{
 
 	/**
-     * Nome dell'articolo, è unico e lo identifica dagli altri
+     * Nome dell'articolo, è unico e non modificabile 
      */
-	private String nome;
+	private final String nome;
 	/**
 	 * Categoria dell'articolo
 	 */
@@ -41,6 +41,11 @@ public class Articolo{
 	public static final String CATEGORIA_DEFAULT = "Non categorizzato";
 	
 	/**
+	 * Espressione regolare per validare il formato del nome accetta caratteri alfanumerici anche con accenti
+	 */
+	private final String nomeRegex = "[A-Z][a-zA-Z0-9\\sàèéìòù]*";
+	
+	/**
 	 * Crea un nuovo {@code Articolo} completo di tutte le sue informazioni
 	 * 
 	 * @param nome Il nome dell'articolo 
@@ -52,9 +57,14 @@ public class Articolo{
 	 */
 	public Articolo(String nome, String categoria, double prezzo, String nota) throws ArticoloException{
 	    if(nome == null || nome.isBlank())
-	    		throw new ArticoloException("Il nome non può essere vuoto");
+	    	throw new ArticoloException("Il nome non può essere vuoto");
 	    
-		this.nome = nome.trim(); 
+		nome = nome.trim(); 
+		
+		if(!validaNome(nome))
+	    	throw new ArticoloException("Il formato del nome non è valido, deve iniziare con la lettera maiuscola");
+		
+		this.nome = nome;
 		this.setCategoria(categoria);
 		this.setPrezzo(prezzo);
 		this.setNota(nota);
@@ -180,6 +190,16 @@ public class Articolo{
         }
         return prezzo;
     }
+	
+	/**
+	 * Controlla che il nome sia vlido
+	 * 
+	 * @param nome Nome da validare
+	 * @return true se il nome è valido, false altrimenti
+	 */
+	private boolean validaNome(String nome) {
+		return nome.matches(nomeRegex);
+	}
 
 	/**
 	 * Confronta l'articolo corrente con un altro oggetto per verificarne l'uguaglianza
