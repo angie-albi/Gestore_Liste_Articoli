@@ -88,7 +88,7 @@ public class ListaDiArticoli implements Iterable<Articolo>{
             throw new ListaDiArticoliException("Il nome della lista non può essere vuoto");
         }
 		
-		this.nome = nome;
+		this.nome = nome.trim();
 		this.articoli = new ArrayList<Articolo>();
 		this.articoliCancellati = new ArrayList<Articolo>();
 	}
@@ -146,7 +146,8 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 	 * @throws ArticoloException In caso di parametri non validi
 	 */
 	public void inserisciArticolo(String nome) throws ListaDiArticoliException, ArticoloException{
-		inserisciArticolo(new Articolo(nome));
+		Articolo nuovoArticolo = new Articolo(nome);
+		inserisciArticolo(nuovoArticolo);
 	}
 	/**
 	 * Crea e inserisce un nuovo articolo fornendo solo il nome e la categoria
