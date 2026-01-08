@@ -1,5 +1,7 @@
 package gui.rigaComando;
 
+import java.util.List;
+
 import jbook.util.Input;
 import modello.GestioneListe;
 import modello.ListaDiArticoli;
@@ -36,12 +38,14 @@ public class InterfacciaRigaDiComando {
 				
 				int scelta = Input.readInt("Scegli l'operazione:");
 				switch (scelta){
+					case 0 -> on = false;
 					case 1 -> creaLista();
-					case 2 -> selezionaLista();
-					case 3 -> eliminaLista();
+					case 2 -> visualizzaListe();
+					case 3 -> selezionaLista();
+					case 4 -> eliminaLista();
 					//Articoli
 					//Categorie
-					case 4 -> on = false;
+					
 					
 					default -> System.out.println("Scelta non valida, riprova");
 				}
@@ -56,15 +60,18 @@ public class InterfacciaRigaDiComando {
 		}
 	}
 	
+	
 	/**
 	 * Menu delle operazioni che può eseguire l'utente
 	 */
 	private void visualizzaMenu() {
-		System.out.println("\n----- OPERAZIONI DISPONIBILI -----");		
+		System.out.println("\n----- OPERAZIONI DISPONIBILI -------");	
+		System.out.println("0 - Torna indietro (menu interfacce)");
 		System.out.println("1 - Crea una lista");	
-		System.out.println("2 - Seleziona e gestisci lista");	
-		System.out.println("3 - Elimina lista");
-		System.out.println("4 - Torna indietro (menu interfacce)\n");	
+		System.out.println("2 - Visualizza liste");
+		System.out.println("3 - Seleziona una lista");	
+		System.out.println("4 - Elimina una lista");
+		System.out.println("------------------------------------\n");
 	}
 	/**
 	 * Metodo interno che permette la creazione di una nuova lista
@@ -73,7 +80,6 @@ public class InterfacciaRigaDiComando {
 	 * @throws GestioneListeException Viene lanciata se la lista è nulla o se il nome è già presente
 	 */
 	private void creaLista() throws ListaDiArticoliException, GestioneListeException {
-		System.out.println("");
 		String nome = Input.readString("Inserisci il nome della lista da creare:");
 		
 		ListaDiArticoli lista = new ListaDiArticoli(nome);
@@ -81,20 +87,62 @@ public class InterfacciaRigaDiComando {
 		System.out.println("La lista "+ lista.getNome() +" è stata creata con successo");
 	}
 	
-	private void selezionaLista() {
+	/**
+	 * Seleziona una lista tra quelle disponibili per gestirla
+	 * 
+	 * @throws GestioneListeException Viene lanciata se il nome è vuoto o se la lista non esiste
+	 */
+	private void selezionaLista() throws GestioneListeException {
+		visualizzaListe();
+		String nome = Input.readString("Inserisci il nome della lista da selezionare:");
 		
+		GestioneListe.matchLista(nome);
+		System.out.println("La lista "+ nome +" è stata selezionata con successo");
+	
+		menuLista();
 	}
 	
+	/**
+	 * Elimina una lista tra quelle disponibili
+	 * 
+	 * @throws GestioneListeException Viene lanciata se il nome è vuoto o se la lista non viene trovata
+	 */
 	private void eliminaLista() throws GestioneListeException {
-		System.out.println("");
 		visualizzaListe();
 		String nome = Input.readString("Inserisci il nome della lista da eliminare:");
 	    
 		GestioneListe.cancellaLista(nome);
-		
+		System.out.println("La lista "+ nome +" è stata cancellata con successo");
 	}
 	
-	
+	/**
+	 * Visualizza tutte le liste disponibili
+	 */
 	private void visualizzaListe() {
+		List<ListaDiArticoli> liste = GestioneListe.getListeArticoli();
+	    
+	    if (liste.isEmpty()) {
+	        System.out.println("Non ci sono liste");
+	    } else {
+	        System.out.println("Liste disponibili:");
+	        
+	        for (ListaDiArticoli l : liste) {
+	            System.out.println("- " + l.getNome());
+	        }
+	    }
+	}
+	
+	/**
+	 * Menu delle operazioni che può eseguire l'utente
+	 */
+	private void menuLista() {
+		System.out.println("\n----- OPERAZIONI DISPONIBILI -------");	
+		System.out.println("0 - Torna indietro (menu gestione delle liste)");
+		System.out.println("1 - Crea un articolo");	
+		System.out.println("2 - Visualizza articoli");
+		System.out.println("3 - Cerca un articolo ");	
+		System.out.println("4 - Elimina un articolo ");	
+		System.out.println("5 - Calcola il prezzo totale");	
+		System.out.println("------------------------------------\n");
 	}
 }

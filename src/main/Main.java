@@ -20,6 +20,10 @@ public class Main {
 				
 				int scelta = Input.readInt("Scegli l'interfaccia:");
 				switch (scelta){
+					case 0 -> {
+						System.out.println("Chiusura del programma...");
+						on = false;
+					}
 					case 1 -> {
 						System.out.println("Avvio interfaccia grafica...");
 						interfacciaGrafica();
@@ -28,10 +32,7 @@ public class Main {
 						System.out.println("Avvio interfaccia da riga di comando...");
 						interfacciaRigaComando();
 					}
-					case 3 -> {
-						System.out.println("Chiusura del programma...");
-						on = false;
-					}
+					
 					
 					default -> System.out.println("Scelta non valida, riprova");
 				}
@@ -56,9 +57,10 @@ public class Main {
 	 * Menu delle interfaccie disponibili per l'utente
 	 */
 	private static void menuInterfacce() {
-		System.out.println("\n----- INTERFACCE DISPONIBILI -----");		
+		System.out.println("\n----- INTERFACCE DISPONIBILI -------");	
+		System.out.println("0 - Esci");
 		System.out.println("1 - Interfaccia grafica");	
 		System.out.println("2 - Interfaccia da riga di comando");	
-		System.out.println("3 - Esci\n");	
+		System.out.println("------------------------------------\n");
 	}
 }

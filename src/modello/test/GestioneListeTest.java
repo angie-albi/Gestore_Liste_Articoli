@@ -2,6 +2,8 @@ package modello.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -220,5 +222,25 @@ class GestioneListeTest {
 		assertThrows(GestioneListeException.class, () -> {
 			GestioneListe.cancellaArticolo(a1);
 		});
+	}
+	
+	/**
+	 * Verifica che il metodo getListeArticoli restituisca correttamente l'elenco delle liste
+	 * 
+	 * @throws ListaDiArticoliException Viene lanciata se il nome della lista è nullo o vuoto
+	 * @throws GestioneListeException Viene lanciata se la lista è nulla o se il nome è già presente
+	 */
+	@Test
+	void testGetListeArticoliECopiaDifensiva() throws GestioneListeException, ListaDiArticoliException {
+	    GestioneListe.reset();
+	    GestioneListe.inserisciLista(new ListaDiArticoli("Spesa Settimanale"));
+	    GestioneListe.inserisciLista(new ListaDiArticoli("Ufficio"));
+	    
+	    List<ListaDiArticoli> risultato = GestioneListe.getListeArticoli();
+	    assertEquals(2, risultato.size());
+	    
+	    risultato.clear();
+	    
+	    assertEquals(2, GestioneListe.getListeArticoli().size());
 	}
 }

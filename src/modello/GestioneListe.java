@@ -213,4 +213,13 @@ public class GestioneListe {
 		
 		articoli.remove(a);
 	}
+	
+	/**
+	 * Restituisce una copia dell'elenco delle liste presenti nel sistema
+	 * 
+	 * @return tutte le liste
+	 */
+	public static List<ListaDiArticoli> getListeArticoli() {
+	    return new ArrayList<>(listeArticoli);
+	}
 }
