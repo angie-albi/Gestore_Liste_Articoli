@@ -3,13 +3,18 @@ package main;
 import gui.rigaComando.InterfacciaRigaDiComando;
 import jbook.util.Input;
 
+/**
+ * Classe Main principale del programma che avvia le interfaccie disponibili dell'applicazione
+ */
 public class Main {
 
 	/**
 	 * Main principale del programma, permette all'utente di scegliere tra
-	 * Interfaccia grafica e Interfaccia da riga di comando
-	 * 
-	 * @param args 
+	 * <ul>
+	 *   <li> Interfaccia grafica </li>
+	 *   <li> Interfaccia da riga di comando </li>
+	 * </ul>
+	 * @param args Argomenti da riga di comando
 	 */
 	public static void main(String[] args) {
 		boolean on = true;
@@ -20,10 +25,7 @@ public class Main {
 				
 				int scelta = Input.readInt("Scegli l'interfaccia:");
 				switch (scelta){
-					case 0 -> {
-						System.out.println("Chiusura del programma...");
-						on = false;
-					}
+					case 0 -> on = false;
 					case 1 -> {
 						System.out.println("Avvio interfaccia grafica...");
 						interfacciaGrafica();
@@ -34,23 +36,31 @@ public class Main {
 					}
 					
 					
-					default -> System.out.println("Scelta non valida, riprova");
+					default -> System.out.println("\nScelta non valida, riprova");
 				}
 			} catch (NumberFormatException e) {
-	            System.out.println("Errore: Inserisci un numero valido (da 1 a 3), riprova");
+	            System.out.println("\nErrore: Inserisci un numero valido (da 0 a 2), riprova");
 	        } catch (Exception e) {
-	            System.out.println("Si è verificato un errore: " + e.getMessage());
+	            System.out.println("\nSi è verificato un errore: " + e.getMessage());
 	            System.out.println("Riprova");
 	        }
 		}
+		System.out.println("Chiusura del programma...");
 	}
 	
+	/**
+	 * Metodo per avviare l'interfaccia da riga di comando
+	 */
 	private static void interfacciaRigaComando() {
 		new InterfacciaRigaDiComando();
 	}
 
+	/**
+	 * Metodo per avviare l'interfaccia grafica
+	 */
 	private static void interfacciaGrafica() {
-		
+//		new GUI();
+		System.out.println("Chiusura interfaccia grafica..."); // da eliminare
 	}
 	
 	/**

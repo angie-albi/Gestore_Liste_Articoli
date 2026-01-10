@@ -105,6 +105,7 @@ public class GestioneListe {
 		if(nome== null ||nome.isBlank()) 
 			throw new GestioneListeException("Il nome della lista non può essere vuoto");
 		
+		nome = nome.trim();
 		ListaDiArticoli listaTrovata = trovaListaPerNome(nome);
         if (listaTrovata == null)
              throw new GestioneListeException("Lista non trovata");

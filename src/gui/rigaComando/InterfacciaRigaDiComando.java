@@ -9,17 +9,24 @@ import modello.exception.GestioneListeException;
 import modello.exception.ListaDiArticoliException;
 
 /**
- * Gestisce l'interfaccia da riga di comando, permette di eseguire 
- * tutte le operazioni sulle liste
+ * Gestisce l'interfaccia da riga di comando, permette di gestire:
+ * <ul>
+ *   <il> liste </il>
+ *   <il> articoli </il>
+ *   <il> categorie </il>
+ * </ul>
  */
 public class InterfacciaRigaDiComando {
 
 	/**
-	 * Costruttore dell'interfaccia, mostra il menu principale
+	 * Costruttore dell'interfaccia, mostra il menu principale 
 	 */
 	public InterfacciaRigaDiComando() {
 		menuPrincipale();
 	}
+	
+	
+	// --------- GESTIONE LISTE ---------
 	
 	/**
 	 * Menu principale che permette di effettuare le seguenti operazioni:
@@ -47,19 +54,18 @@ public class InterfacciaRigaDiComando {
 					//Categorie
 					
 					
-					default -> System.out.println("Scelta non valida, riprova");
+					default -> System.out.println("\nScelta non valida, riprova...");
 				}
 				
 			} catch (NumberFormatException e) {
-	            System.out.println("Errore: Inserisci un numero valido (da 1 a 4)");
+	            System.out.println("\nErrore: Inserisci un numero valido (da 0 a 4)");
 	        } catch (Exception e) {
-	            System.out.println("Si è verificato un errore: " + e.getMessage());
-	            System.out.println("Riprova l'operazione");
+	            System.out.println("\nSi è verificato un errore: " + e.getMessage());
+	            System.out.println("Riprova l'operazione...");
 	        }
-			
 		}
+		System.out.println("Chiusura interfaccia da riga di comando...");
 	}
-	
 	
 	/**
 	 * Menu delle operazioni che può eseguire l'utente
@@ -69,7 +75,7 @@ public class InterfacciaRigaDiComando {
 		System.out.println("0 - Torna indietro (menu interfacce)");
 		System.out.println("1 - Crea una lista");	
 		System.out.println("2 - Visualizza liste");
-		System.out.println("3 - Seleziona una lista");	
+		System.out.println("3 - Seleziona una lista per gestirla");	
 		System.out.println("4 - Elimina una lista");
 		System.out.println("------------------------------------\n");
 	}
@@ -94,12 +100,16 @@ public class InterfacciaRigaDiComando {
 	 */
 	private void selezionaLista() throws GestioneListeException {
 		visualizzaListe();
-		String nome = Input.readString("Inserisci il nome della lista da selezionare:");
+		List<ListaDiArticoli> liste = GestioneListe.getListeArticoli();
+	    
+	    if (!liste.isEmpty()) {
+			String nome = Input.readString("Inserisci il nome della lista da selezionare:");
+			
+			ListaDiArticoli lista = GestioneListe.matchLista(nome);
+			System.out.println("La lista "+ lista.getNome() +" è stata selezionata con successo");
 		
-		GestioneListe.matchLista(nome);
-		System.out.println("La lista "+ nome +" è stata selezionata con successo");
-	
-		menuLista();
+			menuLista(lista);
+	    }
 	}
 	
 	/**
@@ -109,10 +119,14 @@ public class InterfacciaRigaDiComando {
 	 */
 	private void eliminaLista() throws GestioneListeException {
 		visualizzaListe();
-		String nome = Input.readString("Inserisci il nome della lista da eliminare:");
+		List<ListaDiArticoli> liste = GestioneListe.getListeArticoli();
 	    
-		GestioneListe.cancellaLista(nome);
-		System.out.println("La lista "+ nome +" è stata cancellata con successo");
+	    if (!liste.isEmpty()) {
+			String nome = Input.readString("Inserisci il nome della lista da eliminare:");
+		    
+			GestioneListe.cancellaLista(nome);
+			System.out.println("La lista "+ nome +" è stata cancellata con successo");
+	    }
 	}
 	
 	/**
@@ -132,17 +146,54 @@ public class InterfacciaRigaDiComando {
 	    }
 	}
 	
+	
+	// --------- LISTE DI ARTICOLI ---------
+	
 	/**
 	 * Menu delle operazioni che può eseguire l'utente
 	 */
-	private void menuLista() {
+	private void menuLista(ListaDiArticoli lista) {
+		boolean on = true;
+		
+		while(on) {
+			try {
+				visualizzaMenuLista();
+				
+				int scelta = Input.readInt("Scegli l'operazione:");
+				switch (scelta){
+					case 0 -> on = false;
+//					case 1 -> creaArticolo();
+//					case 2 -> visualizzaArticolo();
+//					case 3 -> cercaArticolo();
+//					case 4 -> eliminaArticolo();
+//					case 5 -> modificaArticolo();
+//					case 6 -> calcoloPrezzoTotale();
+					
+					default -> System.out.println("\nScelta non valida, riprova...");
+				}
+			} catch (NumberFormatException e) {
+	            System.out.println("\nErrore: Inserisci un numero valido (da 0 a 6)");
+	        } catch (Exception e) {
+	            System.out.println("\nSi è verificato un errore: " + e.getMessage());
+	            System.out.println("Riprova l'operazione...");
+	        }
+		}
+		System.out.println("Chiusura della lista " + lista.getNome() + "...");
+	}
+	
+	/**
+	 * Menu delle operazioni che può eseguire l'utente sulle liste
+	 */
+	private void visualizzaMenuLista() {
 		System.out.println("\n----- OPERAZIONI DISPONIBILI -------");	
 		System.out.println("0 - Torna indietro (menu gestione delle liste)");
 		System.out.println("1 - Crea un articolo");	
 		System.out.println("2 - Visualizza articoli");
 		System.out.println("3 - Cerca un articolo ");	
 		System.out.println("4 - Elimina un articolo ");	
-		System.out.println("5 - Calcola il prezzo totale");	
+		System.out.println("5 - Modifica un articolo (prezzo, categoria, nota)");
+		System.out.println("6 - Calcola il prezzo totale");	
 		System.out.println("------------------------------------\n");
 	}
+	
 }
