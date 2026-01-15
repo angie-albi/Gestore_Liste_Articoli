@@ -23,17 +23,8 @@ import modello.exception.ListaDiArticoliException;
  */
 public class ListaDiArticoli implements Iterable<Articolo>{
 	
-	/**
-	 * Nome identificativo della lista
-	 */
 	private String nome;
-	/**
-	 * Elenco dei prodotti attualmente da acquistare
-	 */
 	private List<Articolo> articoli;
-	/**
-	 * Elenco dei prodotti rimossi dalla lista ma ancora ripristinabili
-	 */
 	private List<Articolo> articoliCancellati;
 	
 	/**
@@ -100,6 +91,15 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 	 */
 	public String getNome() {
 		return nome;
+	}
+	
+	/**
+	 * Restituisce la lista dei cancellati
+	 * 
+	 * @return La lista dei cancellati
+	 */
+	public List<Articolo> getArticoliCancellati() {
+		return articoliCancellati;
 	}
 	
 	/**

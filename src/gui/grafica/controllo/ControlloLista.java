@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import gui.grafica.vista.CestinoDialog;
 import gui.grafica.vista.ContentPanel;
 import gui.grafica.vista.DialogoArticolo;
 import modello.Articolo;
@@ -66,22 +67,23 @@ public class ControlloLista implements ActionListener{
 	}
 	
 	private void gestisciRimuovi() {
-		Articolo articoloSelezionato = contenutoLista.getArticoloSelezionato();
+		Articolo articoloSel = contenutoLista.getArticoloSelezionato();
 		
-		if (articoloSelezionato == null) {
+		if (articoloSel == null) {
             JOptionPane.showMessageDialog(null, "Seleziona un articolo dalla lista per rimuoverlo.", "Nessuna selezione", JOptionPane.WARNING_MESSAGE);
-        }
-		else {
-			try {
-				int conferma = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler rimuovere l'articolo (" + articoloSelezionato.getNome() + ") dalla lista?");
-		        
-		        if (conferma == JOptionPane.YES_OPTION) {
-						model.cancellaArticolo(articoloSelezionato);
-		        }
-			} catch (ListaDiArticoliException e) {
-				JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-			}
+            return;
 		}
+		
+		int conferma = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler rimuovere l'articolo " + articoloSel.getNome() + " dalla lista? (verra spostato el cestino)", "Conferma rimozione articolo", JOptionPane.YES_NO_OPTION);
+        if (conferma == JOptionPane.YES_OPTION) {
+        	try {
+				model.cancellaArticolo(articoloSel);
+				JOptionPane.showMessageDialog(null, "Articolo rimosso.");
+        	} catch (ListaDiArticoliException e) {
+    			JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+    		}
+        }
+	
 	}
 	
 	private void gestisciAggiungiEsistente() {
@@ -89,6 +91,9 @@ public class ControlloLista implements ActionListener{
 	}
 	
 	private void gestisciVisualizzaCestino() {
-		
+		ControlloCestino controllerCestino = new ControlloCestino(model, contenutoLista);
+	    new CestinoDialog(null, model, controllerCestino);
+	    
+		contenutoLista.updateView();
 	}
 }

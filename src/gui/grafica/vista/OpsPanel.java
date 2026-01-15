@@ -17,7 +17,7 @@ public class OpsPanel extends JPanel{
 		add(deleteArticolo);
 		
 		JButton addArticoloEsistente = new JButton("Aggiungi dal catalogo");
-		deleteArticolo.addActionListener(controllo);
+		addArticoloEsistente.addActionListener(controllo);
 		add(addArticoloEsistente);
 		
 		JButton visualizzaCestino = new JButton("Visualizza Cestino");

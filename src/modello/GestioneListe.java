@@ -216,9 +216,27 @@ public class GestioneListe {
 	}
 	
 	/**
+	 * Restituisce una copia dell'elenco degli articoli presenti nel sistema
+	 * 
+	 * @return Tutti gli articoli
+	 */
+	public static List<Articolo> getArticoli() {
+		return articoli;
+	}
+	
+	/**
+	 * Restituisce una copia dell'elenco delle categorie presenti nel sistema
+	 * 
+	 * @return Tutte le categorie
+	 */
+	public static List<String> getCategorie() {
+		return categorie;
+	}
+
+	/**
 	 * Restituisce una copia dell'elenco delle liste presenti nel sistema
 	 * 
-	 * @return tutte le liste
+	 * @return Tutte le liste
 	 */
 	public static List<ListaDiArticoli> getListeArticoli() {
 	    return new ArrayList<>(listeArticoli);
