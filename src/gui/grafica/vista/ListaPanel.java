@@ -3,6 +3,7 @@ package gui.grafica.vista;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import gui.grafica.controllo.ControlloLista;
@@ -18,11 +19,9 @@ public class ListaPanel extends JPanel{
 		ControlloLista controllo = new ControlloLista(contenutoLista, model);
 		
 		OpsPanel operazioniLista = new OpsPanel(controllo);
-//		controllo.setOpsPanel(operazioniLista);
 		
 		add(contenutoLista, BorderLayout.CENTER);
 		add(operazioniLista, BorderLayout.NORTH);
-
 	}
 
 }
