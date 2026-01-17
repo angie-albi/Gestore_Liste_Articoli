@@ -22,12 +22,25 @@ public class ContentPanel extends JPanel {
 	private ListaDiArticoli model;
 	private JTable tabella;
 	private DefaultTableModel tableModel;
+	private JLabel labelCostoTotale;
 
 	public ContentPanel(ListaDiArticoli model) {
 		this.model = model;
-		
 		setLayout(new BorderLayout());
 		
+		//HEADER
+		JPanel headerPanel = new JPanel(new BorderLayout());
+		
+		JLabel titoloLabel = new JLabel(" Contenuto lista: " + model.getNome());
+		
+		labelCostoTotale = new JLabel();
+		labelCostoTotale.setForeground(new Color(0, 100, 0));
+		
+		headerPanel.add(labelCostoTotale, BorderLayout.EAST);
+		headerPanel.add(titoloLabel, BorderLayout.WEST);
+		add(headerPanel, BorderLayout.NORTH);
+		
+		// TABELLA
 		// colonne della tabella 
 		String[] colonne = {"Nome", "Categoria", "Prezzo (€)", "Nota"};
 		
@@ -39,8 +52,6 @@ public class ContentPanel extends JPanel {
                 return false; 
             }
         };
-		
-		// creazione tabella
         tabella = new JTable(tableModel);
         
         // configurazione 
@@ -49,10 +60,8 @@ public class ContentPanel extends JPanel {
         tabella.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         tabella.setFillsViewportHeight(true);
 
+        // PANNELLO SCORRIMENTO
 		JScrollPane scrollPane = new JScrollPane(tabella);
-		
-		JLabel label = new JLabel("Contenuto lista: " + model.getNome());
-		add(label, BorderLayout.NORTH);
 		add(scrollPane, BorderLayout.CENTER);
 		updateView();
 	}
@@ -72,6 +81,9 @@ public class ContentPanel extends JPanel {
             };
             tableModel.addRow(riga);
         }
+        
+        double totale = model.calcoloPrezzoTotale();
+        labelCostoTotale.setText("Totale: € " + String.format("%.2f", totale) + "  ");
     }
 	
     /**

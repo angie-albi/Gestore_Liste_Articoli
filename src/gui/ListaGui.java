@@ -12,8 +12,7 @@ public class ListaGui extends JFrame{
 
 	public ListaGui(ListaDiArticoli model){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 100, 850, 550);
-		
+		setBounds(350, 150, 600, 500);
 		setTitle("Lista: " + model.getNome());
 		JPanel listaPanel = new ListaPanel(model);
 		setContentPane(listaPanel);
