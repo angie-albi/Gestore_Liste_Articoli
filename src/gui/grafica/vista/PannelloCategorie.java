@@ -22,7 +22,7 @@ public class PannelloCategorie extends JPanel {
 
     public PannelloCategorie(ControlloGestore controllo) {
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
 
         // Modello della lista per visualizzare le categorie
         listModel = new DefaultListModel<>();
