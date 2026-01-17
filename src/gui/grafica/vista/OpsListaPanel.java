@@ -5,9 +5,9 @@ import javax.swing.JPanel;
 
 import gui.grafica.controllo.ControlloLista;
 
-public class OpsPanel extends JPanel{
+public class OpsListaPanel extends JPanel{
 
-	public OpsPanel(ControlloLista controllo) {
+	public OpsListaPanel(ControlloLista controllo) {
 		JButton addArticolo = new JButton("Aggiungi"); 
 		addArticolo.addActionListener(controllo); 
 		add(addArticolo); 

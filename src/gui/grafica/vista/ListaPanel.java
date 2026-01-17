@@ -13,12 +13,12 @@ public class ListaPanel extends JPanel{
 
 	public ListaPanel(ListaDiArticoli model) {
 		setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(5, 5, 5, 5));
+		setBorder(new EmptyBorder(10, 10, 10, 10));
 		
-		ContentPanel contenutoLista = new ContentPanel(model);
+		ContentListaPanel contenutoLista = new ContentListaPanel(model);
 		ControlloLista controllo = new ControlloLista(contenutoLista, model);
 		
-		OpsPanel operazioniLista = new OpsPanel(controllo);
+		OpsListaPanel operazioniLista = new OpsListaPanel(controllo);
 		
 		add(contenutoLista, BorderLayout.CENTER);
 		add(operazioniLista, BorderLayout.NORTH);

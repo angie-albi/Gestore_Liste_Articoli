@@ -38,8 +38,7 @@ public class GestioneListe {
 	/**
 	 * Costruttore privato per impedire l'istanziazione della classe
 	 */
-	private GestioneListe() {
-	}
+	public GestioneListe() {}
 	
 	static {
 		reset();	

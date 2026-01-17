@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import gui.grafica.vista.CestinoDialog;
-import gui.grafica.vista.ContentPanel;
+import gui.grafica.vista.ContentListaPanel;
 import modello.Articolo;
 import modello.ListaDiArticoli;
 import modello.exception.ListaDiArticoliException;
@@ -16,9 +16,9 @@ public class ControlloCestino implements ActionListener{
 	
 	private CestinoDialog vistaCestino;
     private ListaDiArticoli model;
-    private ContentPanel vistaPrincipale;
+    private ContentListaPanel vistaPrincipale;
     
-    public ControlloCestino(ListaDiArticoli model, ContentPanel vistaPrincipale) {
+    public ControlloCestino(ListaDiArticoli model, ContentListaPanel vistaPrincipale) {
         this.model = model;
         this.vistaPrincipale = vistaPrincipale;
     }

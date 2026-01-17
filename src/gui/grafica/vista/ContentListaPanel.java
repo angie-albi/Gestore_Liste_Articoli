@@ -17,14 +17,13 @@ import javax.swing.table.DefaultTableModel;
 import modello.ListaDiArticoli;
 import modello.Articolo;
 
-public class ContentPanel extends JPanel {
-
+public class ContentListaPanel extends JPanel {
 	private ListaDiArticoli model;
 	private JTable tabella;
 	private DefaultTableModel tableModel;
 	private JLabel labelCostoTotale;
 
-	public ContentPanel(ListaDiArticoli model) {
+	public ContentListaPanel(ListaDiArticoli model) {
 		this.model = model;
 		setLayout(new BorderLayout());
 		

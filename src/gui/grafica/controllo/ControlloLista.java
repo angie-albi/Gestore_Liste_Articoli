@@ -7,93 +7,95 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import gui.grafica.vista.CestinoDialog;
-import gui.grafica.vista.ContentPanel;
+import gui.grafica.vista.ContentListaPanel;
 import gui.grafica.vista.DialogoArticolo;
 import modello.Articolo;
 import modello.ListaDiArticoli;
 import modello.exception.ArticoloException;
 import modello.exception.ListaDiArticoliException;
 
-public class ControlloLista implements ActionListener{
-	private ContentPanel contenutoLista;
+public class ControlloLista implements ActionListener {
+	private ContentListaPanel contenutoLista;
 	private ListaDiArticoli model;
-	
-	public ControlloLista(ContentPanel contenutoLista, ListaDiArticoli model) {
+
+	public ControlloLista(ContentListaPanel contenutoLista, ListaDiArticoli model) {
 		this.contenutoLista = contenutoLista;
 		this.model = model;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton source = (JButton) e.getSource();
-		
+
 		if (source.getText().equals("Aggiungi")) {
 			gestisciAggiungi();
-		} 
-		else if (source.getText().equals("Rimuovi")) {
+		} else if (source.getText().equals("Rimuovi")) {
 			gestisciRimuovi();
-		} 
-		else if (source.getText().equals("Aggiungi dal catalogo")) {
+		} else if (source.getText().equals("Aggiungi dal catalogo")) {
 			gestisciAggiungiEsistente();
-		} 
-		else if (source.getText().equals("Visualizza Cestino")) {
+		} else if (source.getText().equals("Visualizza Cestino")) {
 			gestisciVisualizzaCestino();
 		}
-		
+
 		contenutoLista.updateView();
 	}
-	
+
 	private void gestisciAggiungi() {
 		String[] inputs = new DialogoArticolo().getInputs("Aggiungi Articolo");
-		
+
 		if (inputs != null) {
 			try {
 				String nome = inputs[0];
-                String categoria = inputs[1];
-                double prezzo = Double.parseDouble(inputs[2]);
-                String nota = inputs[3];
-                
-                try {
+				String categoria = inputs[1];
+				double prezzo = Double.parseDouble(inputs[2]);
+				String nota = inputs[3];
+
+				try {
 					model.inserisciArticolo(nome, categoria, prezzo, nota);
 				} catch (ArticoloException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore Modello", JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Il prezzo deve essere un numero valido!", "Errore Input", JOptionPane.ERROR_MESSAGE);
-            } catch (ListaDiArticoliException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore Modello", JOptionPane.ERROR_MESSAGE);
-            }
+				JOptionPane.showMessageDialog(null, "Il prezzo deve essere un numero valido!", "Errore Input",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (ListaDiArticoliException ex) {
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore Modello", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
-	
+
 	private void gestisciRimuovi() {
 		Articolo articoloSel = contenutoLista.getArticoloSelezionato();
-		
+
 		if (articoloSel == null) {
-            JOptionPane.showMessageDialog(null, "Seleziona un articolo dalla lista per rimuoverlo.", "Nessuna selezione", JOptionPane.WARNING_MESSAGE);
-            return;
+			JOptionPane.showMessageDialog(null, "Seleziona un articolo dalla lista per rimuoverlo.",
+					"Nessuna selezione", JOptionPane.WARNING_MESSAGE);
+			return;
 		}
-		
-		int conferma = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler rimuovere l'articolo " + articoloSel.getNome() + " dalla lista? (verra spostato el cestino)", "Conferma rimozione articolo", JOptionPane.YES_NO_OPTION);
-        if (conferma == JOptionPane.YES_OPTION) {
-        	try {
+
+		int conferma = JOptionPane.showConfirmDialog(null,
+				"Sei sicuro di voler rimuovere l'articolo " + articoloSel.getNome()
+						+ " dalla lista? (verra spostato el cestino)",
+				"Conferma rimozione articolo", JOptionPane.YES_NO_OPTION);
+		if (conferma == JOptionPane.YES_OPTION) {
+			try {
 				model.cancellaArticolo(articoloSel);
 				JOptionPane.showMessageDialog(null, "Articolo rimosso.");
-        	} catch (ListaDiArticoliException e) {
-    			JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-    		}
-        }
-	
+			} catch (ListaDiArticoliException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+
 	}
-	
+
 	private void gestisciAggiungiEsistente() {
-		
+
 	}
-	
+
 	private void gestisciVisualizzaCestino() {
 		ControlloCestino controllerCestino = new ControlloCestino(model, contenutoLista);
-	    new CestinoDialog(null, model, controllerCestino);
-	    
+		new CestinoDialog(null, model, controllerCestino);
+
 		contenutoLista.updateView();
 	}
 }
