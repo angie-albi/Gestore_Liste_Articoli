@@ -20,7 +20,7 @@ public class PannelloListe extends JPanel {
 
 	public PannelloListe() {
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
 
 		// Elenco delle liste
 		listModel = new DefaultListModel<>();

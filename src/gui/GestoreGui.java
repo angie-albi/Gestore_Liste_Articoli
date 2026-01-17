@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+import gui.grafica.controllo.ControlloGestore;
 import gui.grafica.vista.PannelloArticoliGlobali;
 import gui.grafica.vista.PannelloCategorie;
 import gui.grafica.vista.PannelloListe;
@@ -22,9 +23,14 @@ public class GestoreGui extends JFrame {
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 
-		// Aggiunta dei tre pannelli principali
+		// aggiunyta controllo
+		ControlloGestore controllo = new ControlloGestore();
+		PannelloCategorie pannelloCat = new PannelloCategorie(controllo);
+		controllo.setVistaCategorie(pannelloCat);
+		
+		// aggiunta dei tre pannelli principali
 		tabbedPane.addTab("Gestione Liste", new PannelloListe());
-		tabbedPane.addTab("Categorie", new PannelloCategorie());
+		tabbedPane.addTab("Categorie", pannelloCat);
 		tabbedPane.addTab("Articoli", new PannelloArticoliGlobali());
 
 		add(tabbedPane);
