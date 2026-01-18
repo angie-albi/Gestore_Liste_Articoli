@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import gui.grafica.vista.DialogoArticolo;
 import gui.grafica.vista.PannelloArticoliGlobali;
 import gui.grafica.vista.PannelloCategorie;
 import modello.Articolo;
@@ -41,11 +42,14 @@ public class ControlloGestore implements ActionListener {
         switch (comando) {
             case "Aggiungi Categoria" -> gestisciAggiungiCategoria();
             case "Elimina Categoria" -> gestisciEliminaCategoria();
-            case "Elimina dal Registro" -> gestisciEliminaArticoloGlobale();
+            
+            case "Aggiungi Articolo" -> gestisciAggiungiArticoloGlobale();
+            case "Elimina Articolo" -> gestisciEliminaArticoloGlobale();
         }
 
 	}
 
+	// CATEGORIA
 	private void gestisciAggiungiCategoria() {
         String nome = JOptionPane.showInputDialog(null, "Inserisci il nome della nuova categoria:");
         if (nome != null && !nome.isBlank()) {
@@ -61,7 +65,7 @@ public class ControlloGestore implements ActionListener {
     private void gestisciEliminaCategoria() {
         String selezionata = vistaCategorie.getCategoriaSelezionata();
         if (selezionata == null) {
-            JOptionPane.showMessageDialog(null, "Seleziona una categoria da eliminare.");
+            JOptionPane.showMessageDialog(null, "Seleziona una categoria da eliminare");
             return;
         }
 
@@ -73,15 +77,38 @@ public class ControlloGestore implements ActionListener {
         }
     }
     
+    // ARTICOLI
+    private void gestisciAggiungiArticoloGlobale() {
+        String[] inputs = new DialogoArticolo().getInputs("Nuovo Articolo nel Registro");
+
+        if (inputs != null) {
+            try {
+                String nome = inputs[0];
+                String categoria = inputs[1];
+                double prezzo = Double.parseDouble(inputs[2]);
+                String nota = inputs[3];
+
+                Articolo nuovo = new Articolo(nome, categoria, prezzo, nota);
+                GestioneListe.inserisciArticolo(nuovo);
+                
+                vistaArticoli.aggiornaDati();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Il prezzo deve essere un numero valido", "Errore Input", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
     private void gestisciEliminaArticoloGlobale() {
         Articolo sel = vistaArticoli.getArticoloSelezionato();
         if (sel == null) {
-            JOptionPane.showMessageDialog(null, "Seleziona un articolo da rimuovere dal sistema.");
+            JOptionPane.showMessageDialog(null, "Seleziona un articolo da rimuovere dal sistema");
             return;
         }
 
         int confirm = JOptionPane.showConfirmDialog(null, 
-            "Eliminare '" + sel.getNome() + "' dal registro globale?\nAttenzione: non verrà rimosso dalle liste esistenti.", 
+            "Eliminare '" + sel.getNome() + "' dal registro globale?\nAttenzione: non verrà rimosso dalle liste esistenti", 
             "Conferma eliminazione", JOptionPane.YES_NO_OPTION);
             
         if (confirm == JOptionPane.YES_OPTION) {
@@ -93,5 +120,4 @@ public class ControlloGestore implements ActionListener {
             }
         }
     }
-
 }

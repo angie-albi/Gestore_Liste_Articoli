@@ -42,8 +42,12 @@ public class PannelloArticoliGlobali extends JPanel{
 
         // Pannello operazioni globali
         JPanel bottoni = new JPanel();
-        JButton btnElimina = new JButton("Elimina dal Registro");
         
+        JButton btnAggiungi = new JButton("Aggiungi Articolo");
+        btnAggiungi.addActionListener(controllo);
+        bottoni.add(btnAggiungi);
+        
+        JButton btnElimina = new JButton("Elimina Articolo");
         btnElimina.addActionListener(controllo);
         bottoni.add(btnElimina);
         

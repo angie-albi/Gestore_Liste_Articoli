@@ -29,14 +29,15 @@ public class ControlloCestino implements ActionListener{
     
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JButton source = (JButton) e.getSource();
-        String comando = source.getText();
+		String comando = ((JButton) e.getSource()).getText();
 
-        if (comando.equals("Recupera")) {
-            gestisciRecupera();
-        } else if (comando.equals("Svuota Cestino")) {
-            gestisciSvuotaCestino();
+        switch (comando) {
+            case "Recupera" -> gestisciRecupera();
+            case "Svuota Cestino" -> gestisciSvuotaCestino();
+            default -> System.out.println("Comando non riconosciuto nel cestino: " + comando);
         }
+        vistaCestino.aggiornaVista();   
+        vistaPrincipale.updateView();
 	}
 	
 	private void gestisciRecupera() {

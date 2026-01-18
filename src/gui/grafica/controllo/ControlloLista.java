@@ -25,17 +25,14 @@ public class ControlloLista implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JButton source = (JButton) e.getSource();
+		String comando = ((JButton) e.getSource()).getText();
 
-		if (source.getText().equals("Aggiungi")) {
-			gestisciAggiungi();
-		} else if (source.getText().equals("Rimuovi")) {
-			gestisciRimuovi();
-		} else if (source.getText().equals("Aggiungi dal catalogo")) {
-			gestisciAggiungiEsistente();
-		} else if (source.getText().equals("Visualizza Cestino")) {
-			gestisciVisualizzaCestino();
-		}
+	    switch (comando) {
+	        case "Aggiungi" -> gestisciAggiungi();
+	        case "Rimuovi" -> gestisciRimuovi();
+	        case "Aggiungi dal catalogo" -> gestisciAggiungiEsistente();
+	        case "Visualizza Cestino" -> gestisciVisualizzaCestino();
+	    }
 
 		contenutoLista.updateView();
 	}
@@ -68,7 +65,7 @@ public class ControlloLista implements ActionListener {
 		Articolo articoloSel = contenutoLista.getArticoloSelezionato();
 
 		if (articoloSel == null) {
-			JOptionPane.showMessageDialog(null, "Seleziona un articolo dalla lista per rimuoverlo.",
+			JOptionPane.showMessageDialog(null, "Seleziona un articolo dalla lista per rimuoverlo",
 					"Nessuna selezione", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
@@ -80,7 +77,7 @@ public class ControlloLista implements ActionListener {
 		if (conferma == JOptionPane.YES_OPTION) {
 			try {
 				model.cancellaArticolo(articoloSel);
-				JOptionPane.showMessageDialog(null, "Articolo rimosso.");
+				JOptionPane.showMessageDialog(null, "Articolo rimosso");
 			} catch (ListaDiArticoliException e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 			}
