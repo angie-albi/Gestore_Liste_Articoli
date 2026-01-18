@@ -7,10 +7,9 @@ import gui.grafica.controllo.ControlloGestore;
 import gui.grafica.vista.PannelloArticoliGlobali;
 import gui.grafica.vista.PannelloCategorie;
 import gui.grafica.vista.PannelloListe;
+import modello.Articolo;
 import modello.GestioneListe;
 import modello.ListaDiArticoli;
-import modello.exception.ArticoloException;
-import modello.exception.GestioneListeException;
 import modello.exception.ListaDiArticoliException;
 
 /**
@@ -69,21 +68,34 @@ public class GestoreGui extends JFrame {
 	 * @throws ListaDiArticoliException In caso di errori durante la creazione della lista di prova.
 	 */
 	public static void main(String[] args) throws ListaDiArticoliException {
-		ListaDiArticoli l = new ListaDiArticoli("Spesa");
-
 		try {
-			l.inserisciArticolo("Latte", "Alimentari", 1.50);
-			l.inserisciArticolo("Pane", "Alimentari", 2.00);
-			l.inserisciArticolo("Vino", "Bevande", 10.00);
-		} catch (ArticoloException e) {
-			// elimina try-cath
-		}
-
-		try {
-			GestioneListe.inserisciLista(l);
-		} catch (GestioneListeException e) {
-			e.printStackTrace();
-		}
+	        // Creazione di una lista di esempio
+	        ListaDiArticoli spesa = new ListaDiArticoli("Spesa Settimanale");
+	        
+	        // Creazione di articoli con diverse categorie
+	        Articolo a1 = new Articolo("Latte", "Alimentari", 1.50, "Intero");
+	        Articolo a2 = new Articolo("Pane", "Alimentari", 2.00);
+	        Articolo a3 = new Articolo("Detersivo", "Pulizia", 5.50);
+	        
+	        // Inserimento negli elenchi globali (registra anche le categorie)
+	        GestioneListe.inserisciArticolo(a1);
+	        GestioneListe.inserisciArticolo(a2);
+	        GestioneListe.inserisciArticolo(a3);
+	        
+	        // Aggiunta alla lista specifica
+	        spesa.inserisciArticolo(a1);
+	        spesa.inserisciArticolo(a2);
+	        spesa.inserisciArticolo(a3);
+	        
+	        // Spostiamo un elemento nel cestino per testare i contatori
+	        spesa.cancellaArticolo(a2);
+	        
+	        // Registrazione della lista nel sistema
+	        GestioneListe.inserisciLista(spesa);
+	        
+	    } catch (Exception e) {
+	        System.err.println("Errore nel caricamento dati esempio: " + e.getMessage());
+	    }
 
 		new GestoreGui();
 	}

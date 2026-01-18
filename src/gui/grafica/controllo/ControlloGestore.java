@@ -229,4 +229,18 @@ public class ControlloGestore implements ActionListener {
             }
         }
     }
+    
+    /**
+     * Metodo centralizzato per rinfrescare tutte le tabelle del gestore principale.
+     */
+    public void aggiornaTutto() {
+        if (vistaListe != null) 
+        	vistaListe.aggiornaDati();
+        
+        if (vistaCategorie != null)
+        	vistaCategorie.aggiornaDati();
+        
+        if (vistaArticoli != null) 
+        	vistaArticoli.aggiornaDati();
+    }
 }

@@ -1,7 +1,11 @@
 package main;
 
+import gui.GestoreGui;
 import gui.rigaComando.InterfacciaRigaDiComando;
 import jbook.util.Input;
+import modello.Articolo;
+import modello.GestioneListe;
+import modello.ListaDiArticoli;
 
 /**
  * Classe Main principale del programma che avvia le interfaccie disponibili dell'applicazione
@@ -59,9 +63,39 @@ public class Main {
 	 * Metodo per avviare l'interfaccia grafica
 	 */
 	private static void interfacciaGrafica() {
-		
-		//provvisorio, poi si richiamera a GestoreListe
-						
+		caricaDatiEsempio(); 
+	    new GestoreGui();			
+	}
+	
+	private static void caricaDatiEsempio() {
+	    try {
+	        // Creazione di una lista di esempio
+	        ListaDiArticoli spesa = new ListaDiArticoli("Spesa Settimanale");
+	        
+	        // Creazione di articoli con diverse categorie
+	        Articolo a1 = new Articolo("Latte", "Alimentari", 1.50, "Intero");
+	        Articolo a2 = new Articolo("Pane", "Alimentari", 2.00);
+	        Articolo a3 = new Articolo("Detersivo", "Pulizia", 5.50);
+	        
+	        // Inserimento negli elenchi globali (registra anche le categorie)
+	        GestioneListe.inserisciArticolo(a1);
+	        GestioneListe.inserisciArticolo(a2);
+	        GestioneListe.inserisciArticolo(a3);
+	        
+	        // Aggiunta alla lista specifica
+	        spesa.inserisciArticolo(a1);
+	        spesa.inserisciArticolo(a2);
+	        spesa.inserisciArticolo(a3);
+	        
+	        // Spostiamo un elemento nel cestino per testare i contatori
+	        spesa.cancellaArticolo(a2);
+	        
+	        // Registrazione della lista nel sistema
+	        GestioneListe.inserisciLista(spesa);
+	        
+	    } catch (Exception e) {
+	        System.err.println("Errore nel caricamento dati esempio: " + e.getMessage());
+	    }
 	}
 	
 	/**

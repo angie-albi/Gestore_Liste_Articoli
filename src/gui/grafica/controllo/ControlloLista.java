@@ -11,8 +11,8 @@ import gui.grafica.vista.ContentListaPanel;
 import gui.grafica.vista.DialogoArticolo;
 import gui.grafica.vista.PannelloListe;
 import modello.Articolo;
+import modello.GestioneListe;
 import modello.ListaDiArticoli;
-import modello.exception.ArticoloException;
 import modello.exception.ListaDiArticoliException;
 
 public class ControlloLista implements ActionListener {
@@ -42,27 +42,33 @@ public class ControlloLista implements ActionListener {
 	}
 
 	private void gestisciAggiungi() {
-		String[] inputs = new DialogoArticolo().getInputs("Aggiungi Articolo");
+	    String[] inputs = new DialogoArticolo().getInputs("Aggiungi Articolo");
 
-		if (inputs != null) {
-			try {
-				String nome = inputs[0];
-				String categoria = inputs[1];
-				double prezzo = Double.parseDouble(inputs[2]);
-				String nota = inputs[3];
+	    if (inputs != null) {
+	        try {
+	            Articolo nuovo = new Articolo(inputs[0], inputs[1], 
+	                                          Double.parseDouble(inputs[2]), inputs[3]);
 
-				try {
-					model.inserisciArticolo(nome, categoria, prezzo, nota);
-				} catch (ArticoloException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore Modello", JOptionPane.ERROR_MESSAGE);
-				}
-			} catch (NumberFormatException ex) {
-				JOptionPane.showMessageDialog(null, "Il prezzo deve essere un numero valido!", "Errore Input",
-						JOptionPane.ERROR_MESSAGE);
-			} catch (ListaDiArticoliException ex) {
-				JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore Modello", JOptionPane.ERROR_MESSAGE);
-			}
-		}
+	            // aggiunta dell'articolo nella lista locale
+	            model.inserisciArticolo(nuovo);
+	            try {
+	                GestioneListe.inserisciArticolo(nuovo);
+	            } catch (Exception e) {
+	                // se l'articolo esiste già globalmente, il sistema ignora l'errore 
+	            }
+
+	            // aggiorna la vista corrente
+	            contenutoLista.updateView(); 
+
+	        } catch (Exception ex) {
+	            JOptionPane.showMessageDialog(null, "Errore: " + ex.getMessage());
+	        }
+	    }	
+	}
+
+	private void aggiornaInterfacciaGlobale() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void gestisciRimuovi() {
