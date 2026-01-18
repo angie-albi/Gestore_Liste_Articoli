@@ -23,15 +23,19 @@ public class GestoreGui extends JFrame {
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 
-		// aggiunyta controllo
+		// aggiunta controllo
 		ControlloGestore controllo = new ControlloGestore();
+		
 		PannelloCategorie pannelloCat = new PannelloCategorie(controllo);
 		controllo.setVistaCategorie(pannelloCat);
+		
+		PannelloArticoliGlobali pannelloArt = new PannelloArticoliGlobali(controllo);
+	    controllo.setVistaArticoli(pannelloArt);
 		
 		// aggiunta dei tre pannelli principali
 		tabbedPane.addTab("Gestione Liste", new PannelloListe());
 		tabbedPane.addTab("Categorie", pannelloCat);
-		tabbedPane.addTab("Articoli", new PannelloArticoliGlobali());
+		tabbedPane.addTab("Articoli", pannelloArt);
 
 		add(tabbedPane);
 		setVisible(true);

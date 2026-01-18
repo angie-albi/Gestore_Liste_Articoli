@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import gui.grafica.vista.PannelloArticoliGlobali;
 import gui.grafica.vista.PannelloCategorie;
+import modello.Articolo;
 import modello.GestioneListe;
 import modello.exception.GestioneListeException;
 
@@ -16,6 +18,7 @@ import modello.exception.GestioneListeException;
 public class ControlloGestore implements ActionListener {
 
 	private PannelloCategorie vistaCategorie;
+	private PannelloArticoliGlobali vistaArticoli;
 
 	/**
 	 * Metodo per collegare la vista al controller dopo la creazione
@@ -23,6 +26,13 @@ public class ControlloGestore implements ActionListener {
 	public void setVistaCategorie(PannelloCategorie vista) {
 		this.vistaCategorie = vista;
 	}
+	
+	/**
+	 * Metodo per collegare la vista al controller dopo la creazione
+	 */
+	public void setVistaArticoli(PannelloArticoliGlobali vista) {
+        this.vistaArticoli = vista;
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -30,7 +40,8 @@ public class ControlloGestore implements ActionListener {
 
         switch (comando) {
             case "Aggiungi Categoria" -> gestisciAggiungiCategoria();
-            case "Elimina Categoria" -> gestisciAggiungiCategoria();
+            case "Elimina Categoria" -> gestisciEliminaCategoria();
+            case "Elimina dal Registro" -> gestisciEliminaArticoloGlobale();
         }
 
 	}
@@ -59,6 +70,27 @@ public class ControlloGestore implements ActionListener {
             vistaCategorie.aggiornaDati();
         } catch (GestioneListeException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void gestisciEliminaArticoloGlobale() {
+        Articolo sel = vistaArticoli.getArticoloSelezionato();
+        if (sel == null) {
+            JOptionPane.showMessageDialog(null, "Seleziona un articolo da rimuovere dal sistema.");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(null, 
+            "Eliminare '" + sel.getNome() + "' dal registro globale?\nAttenzione: non verrà rimosso dalle liste esistenti.", 
+            "Conferma eliminazione", JOptionPane.YES_NO_OPTION);
+            
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                GestioneListe.cancellaArticolo(sel);
+                vistaArticoli.aggiornaDati();
+            } catch (GestioneListeException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
