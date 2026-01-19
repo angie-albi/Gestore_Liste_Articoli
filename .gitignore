@@ -3,7 +3,6 @@ bin/
 .project
 .classpath
 .settings/
-doc/
 
 #.class
 #.log
