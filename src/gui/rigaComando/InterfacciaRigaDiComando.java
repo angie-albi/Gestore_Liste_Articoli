@@ -252,6 +252,7 @@ public class InterfacciaRigaDiComando {
     /**
      * Permette l'inserimento di un articolo nella lista.
      * 
+     * @param lista La lista specifica in cui inserire l'articolo.
      * @throws ListaDiArticoliException Se l'articolo è già presente[cite: 13].
      * @throws ArticoloException Se i dati del nuovo articolo non sono validi[cite: 18].
      * @throws GestioneListeException Se si verificano errori nel registro globale[cite: 21].
@@ -279,6 +280,8 @@ public class InterfacciaRigaDiComando {
 
     /**
      * Visualizza gli articoli attivi presenti nella lista utilizzando l'iteratore[cite: 13].
+     *
+     * @param lista La lista specifica in cui inserire l'articolo.
      */
     private void visualizzaContenutoLista(ListaDiArticoli lista) {
         System.out.println("\nArticoli attivi in '" + lista.getNome() + "':");
@@ -291,6 +294,8 @@ public class InterfacciaRigaDiComando {
 
     /**
      * Ricerca articoli nella lista (attivi e cancellati) tramite prefisso[cite: 13].
+     *
+     * @param lista La lista specifica in cui inserire l'articolo.
      */
     private void cercaArticoloInLista(ListaDiArticoli lista) {
         String pref = Input.readString("Inserisci prefisso di ricerca: ");
@@ -302,6 +307,7 @@ public class InterfacciaRigaDiComando {
     /**
      * Sposta un articolo selezionato nella lista dei cancellati[cite: 13].
      * 
+     * @param lista La lista specifica in cui inserire l'articolo.
      * @throws ListaDiArticoliException Se l'articolo non è presente negli attivi[cite: 13].
      */
     private void spostaNelCestino(ListaDiArticoli lista) throws ListaDiArticoliException {
@@ -321,6 +327,7 @@ public class InterfacciaRigaDiComando {
     /**
      * Gestisce le operazioni di recupero o svuotamento del cestino della lista[cite: 13].
      * 
+     * @param lista La lista specifica in cui inserire l'articolo.
      * @throws ListaDiArticoliException Se l'articolo non è nei cancellati[cite: 13].
      */
     private void gestioneCestino(ListaDiArticoli lista) throws ListaDiArticoliException {
@@ -404,6 +411,9 @@ public class InterfacciaRigaDiComando {
 
     /**
      * Metodo ausiliario per la ricerca di un articolo nel registro globale per nome.
+     * 
+     * @param nome Il nome dell'articolo da cercare nel catalogo.
+     * @return L'oggetto {@link Articolo} corrispondente se trovato, {@code null} altrimenti.
      */
     private Articolo trovaArticoloInCatalogo(String nome) {
         return GestioneListe.getArticoli().stream()

@@ -286,6 +286,26 @@ class ListaDiArticoliTest {
 	    assertTrue(risultato.contains("Latte"));
 	    assertTrue(risultato.contains("Pane"));
 	}
+	
+	/**
+     * Verifica la rimozione definitiva di un articolo da entrambi gli elenchi 
+     * (articoli attivi e articoli cancellati).
+     * 
+     * @throws ArticoloException Se i dati dell'articolo non sono validi.
+     * @throws ListaDiArticoliException Se si verificano errori nella gestione della lista.
+     */
+	@Test
+	void testRimuoviCompletamente() throws ArticoloException, ListaDiArticoliException {
+	    Articolo a = new Articolo("Mela");
+	    l1.inserisciArticolo(a);
+	    l1.rimuoviCompletamente(a);
+	    assertEquals(0, l1.numEl());
+	    
+	    l1.inserisciArticolo(a);
+	    l1.cancellaArticolo(a); // sposta nel cestino
+	    l1.rimuoviCompletamente(a);
+	    assertEquals(0, l1.numElCanc());
+	}
 
 	/**
 	 * Metodo ausiliario per popolare la lista con articoli predefiniti

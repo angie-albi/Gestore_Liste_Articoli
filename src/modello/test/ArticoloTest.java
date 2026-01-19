@@ -94,23 +94,16 @@ class ArticoloTest {
     
     /**
 	 * Verifica che la validazione del nome rispetti i vincoli impostati:
-	 * deve iniziare con una lettera maiuscola e può contenere solo caratteri alfanumerici, 
-	 * spazi e lettere accentate comuni.
+	 * può contenere solo caratteri alfanumerici, spazi e lettere accentate comuni.
 	 */
 	@Test
 	void testValidazioneNome() {
-		assertDoesNotThrow(() -> new Articolo("Caffè", "Cibo", 2.50));
+		assertDoesNotThrow(() -> new Articolo("caffè", "Cibo", 2.50));
 		assertDoesNotThrow(() -> new Articolo("Latte 1L", "Cibo", 1.20));
 		assertDoesNotThrow(() -> new Articolo("  Pane", "Cibo", 0.50));
 		
 		assertThrows(ArticoloException.class, () -> {
-			new Articolo("mela");
-		});
-		assertThrows(ArticoloException.class, () -> {
 			new Articolo("Vino!");
-		});
-		assertThrows(ArticoloException.class, () -> {
-			new Articolo("123Pasta");
 		});
 	}
 

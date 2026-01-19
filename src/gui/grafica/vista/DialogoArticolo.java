@@ -22,17 +22,14 @@ import modello.Articolo;
  * @author Angie Albitres
  */
 public class DialogoArticolo {
-	private JTextField nome, categoria, prezzo, nota;
-	private JComponent[] inputs;
+	/** Campi di input per raccogliere i dati dell'articolo */
+    private JTextField nome, categoria, prezzo, nota;
+    
+    /** Array di componenti per l'organizzazione del layout nel dialogo */
+    private JComponent[] inputs;
 
-	/**
-     * Visualizza il dialogo modale e restituisce i valori inseriti dall'utente.
-     * 
-     * @param msg Il titolo da visualizzare nella barra del dialogo
-     * 
-     * @return Un array di {@code String} contenente i valori inseriti nell'ordine:
-     * [nome, categoria, prezzo, nota], oppure {@code null} se l'utente
-     * ha annullato l'operazione
+    /**
+     * Crea un nuovo oggetto DialogoArticolo inizializzando i componenti grafici.
      */
 	public DialogoArticolo() {
 		nome = new JTextField(20); 
@@ -49,9 +46,10 @@ public class DialogoArticolo {
 	}
 	
 	/**
-	 * Precompila i campi del dialogo con i dati di un articolo esistente.
-	 * Il nome rimane bloccato (non modificabile) come da specifica del modello.
-	 */
+     * Precompila i campi del dialogo con i dati di un articolo esistente.
+     * 
+     * @param a L'oggetto {@link Articolo} i cui dati devono essere mostrati nel dialogo.
+     */
 	public void setDatiArticolo(Articolo a) {
 	    nome.setText(a.getNome());
 	    nome.setEditable(false);
@@ -62,6 +60,7 @@ public class DialogoArticolo {
 
 	/**
      * Mostra il dialogo e restituisce i valori inseriti
+     * 
      * @param msg Il titolo del dialogo
      * @return Un array di String con [nome, categoria, prezzo, nota] oppure null se annullato
      */

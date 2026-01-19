@@ -243,4 +243,32 @@ class GestioneListeTest {
 	    
 	    assertEquals(2, GestioneListe.getListeArticoli().size());
 	}
+	
+	/**
+     * Verifica il corretto funzionamento del flag di modifica del sistema, 
+     * assicurando che lo stato venga impostato e letto correttamente.
+     */
+	@Test
+	void testGestioneModifica() {
+	    GestioneListe.setModificato(false);
+	    assertFalse(GestioneListe.getModificato());
+	    GestioneListe.setModificato(true);
+	    assertTrue(GestioneListe.getModificato());
+	}
+
+	/**
+     * Verifica che i metodi di accesso ai registri globali restituiscano correttamente l'elenco dei dati.
+     * 
+     * @throws GestioneListeException In caso di errori nella gestione delle liste.
+     * @throws ArticoloException In caso di errori nella creazione degli articoli di test.
+     */
+	@Test
+	void testGetArticoliECategorie() throws GestioneListeException, ArticoloException {
+	    GestioneListe.inserisciCategoria("TestCat");
+	    assertTrue(GestioneListe.getCategorie().contains("TestCat"));
+	    
+	    Articolo a = new Articolo("TestArt");
+	    GestioneListe.inserisciArticolo(a);
+	    assertTrue(GestioneListe.getArticoli().contains(a));
+	}
 }

@@ -43,6 +43,8 @@ public class GestioneListe {
 
 	/**
 	 * Getter del flag modifica
+	 * 
+	 * @return true se il sistema è stato modificato, false altrimenti
 	 */
     public static boolean getModificato() { 
     	return modificato; 
@@ -375,6 +377,10 @@ public class GestioneListe {
 
     /**
      * Metodo di utilità per trovare un articolo nel registro globale durante il caricamento.
+     * 
+     * @param nome Il nome dell'articolo da cercare
+     * @param categoria La categoria dell'articolo da cercare
+     * @return L'oggetto {@link Articolo} trovato, oppure {@code null} se non presente
      */
     private static Articolo trovaArticoloGlobale(String nome, String categoria) {
         for (Articolo a : articoli) {
