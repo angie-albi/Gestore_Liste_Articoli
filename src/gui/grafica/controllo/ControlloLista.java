@@ -18,6 +18,20 @@ import modello.GestioneListe;
 import modello.ListaDiArticoli;
 import modello.exception.ListaDiArticoliException;
 
+/**
+ * La classe {@code ControlloLista} gestisce le operazioni eseguibili su una singola lista di articoli
+ * <p>
+ * Coordina le seguenti funzionalità:
+ * <ul>
+ *   <li>Aggiunta e rimozione di articoli</li>
+ *   <li>Selezione di articoli dal catalogo globale</li>
+ *   <li>Gestione del cestino della lista</li>
+ *   <li>Ricerca articoli per prefisso</li>
+ * </ul>
+ * 
+ * @author Angie Albitres
+ *
+ */
 public class ControlloLista implements ActionListener {
 	private ContentListaPanel contenutoLista;
 	private ListaDiArticoli model;
@@ -25,6 +39,14 @@ public class ControlloLista implements ActionListener {
 	private ControlloGestore controllerGlobale;
 	private OpsListaPanel vistaOperazioni;
 
+	/**
+	 * Costruisce un nuovo controller per la gestione di una lista specifica
+	 * 
+	 * @param contenutoLista La vista del contenuto della lista
+	 * @param model Il modello della lista da gestire
+	 * @param vistaPrincipale Il pannello principale delle liste
+	 * @param controllerGlobale Il controller globale per gli aggiornamenti
+	 */
 	public ControlloLista(ContentListaPanel contenutoLista, ListaDiArticoli model, 
             PannelloListe vistaPrincipale, ControlloGestore controllerGlobale) {
 		this.contenutoLista = contenutoLista;
@@ -33,10 +55,21 @@ public class ControlloLista implements ActionListener {
 		this.controllerGlobale = controllerGlobale; 
 	}
 	
+	/**
+	 * Collega la vista dei controlli operativi al controller
+	 * 
+	 * @param vistaOperazioni Il pannello contenente i controlli operativi
+	 */
 	public void setVistaOperazioni(OpsListaPanel vistaOperazioni) {
         this.vistaOperazioni = vistaOperazioni;
     }
 
+	/**
+	 * Gestisce gli eventi generati dai componenti dell'interfaccia.
+	 * Smista le richieste ai metodi specifici e aggiorna le viste dopo ogni operazione
+	 * 
+	 * @param e L'evento di azione generato
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String comando = "";
@@ -58,7 +91,12 @@ public class ControlloLista implements ActionListener {
 	        case "Cerca" -> gestisciRicerca();
 	        case "Reset" -> gestisciReset();
 	    }
-
+	    
+	 // setta a true il valore modifica del GestoreListe
+        switch(comando) {
+        	case "Aggiungi", "Rimuovi", "Aggiungi dal catalogo" -> GestioneListe.setModificato(true);
+        }
+        
 	    if (!comando.equals("Cerca") && !comando.equals("Reset")) {
             contenutoLista.updateView();
         }
@@ -69,6 +107,10 @@ public class ControlloLista implements ActionListener {
 		vistaPrincipale.aggiornaDati();
 	}
 
+	/**
+	 * Gestisce l'aggiunta di un nuovo articolo tramite dialogo di input.
+	 * L'articolo viene aggiunto alla lista locale e al catalogo globale
+	 */
 	private void gestisciAggiungi() {
 	    String[] inputs = new DialogoArticolo().getInputs("Aggiungi Articolo");
 
@@ -95,6 +137,10 @@ public class ControlloLista implements ActionListener {
 	}
 
 
+	/**
+	 * Gestisce la rimozione dell'articolo selezionato spostandolo nel cestino.
+	 * Richiede conferma prima di procedere
+	 */
 	private void gestisciRimuovi() {
 		Articolo articoloSel = contenutoLista.getArticoloSelezionato();
 
@@ -117,6 +163,9 @@ public class ControlloLista implements ActionListener {
 
 	}
 
+	/**
+	 * Gestisce l'aggiunta alla lista di un articolo selezionato dal catalogo globale
+	 */
 	private void gestisciAggiungiEsistente() {
 	    List<Articolo> catalogo = GestioneListe.getArticoli();
 	    if (catalogo.isEmpty()) {
@@ -148,6 +197,9 @@ public class ControlloLista implements ActionListener {
 	    }
 	}
 
+	/**
+	 * Apre la finestra del cestino per visualizzare e gestire gli articoli cancellati
+	 */
 	private void gestisciVisualizzaCestino() {
 		ControlloCestino controllerCestino = new ControlloCestino(model, contenutoLista, vistaPrincipale);
 		new CestinoDialog(null, model, controllerCestino);
@@ -155,25 +207,32 @@ public class ControlloLista implements ActionListener {
 		contenutoLista.updateView();
 	}
 	
+	/**
+	 * Gestisce la ricerca di articoli per prefisso del nome.
+	 * Mostra il pulsante Reset se la ricerca produce risultati
+	 */
 	private void gestisciRicerca() {
         if (vistaOperazioni == null) return;
         
         String prefisso = vistaOperazioni.getTestoRicerca();
         
         if (prefisso == null || prefisso.isBlank()) {
-            gestisciReset(); // Se premo invio su campo vuoto, resetta
+            gestisciReset(); // se premo invio su campo vuoto, resetta
         } else {
             java.util.List<Articolo> risultati = model.ricercaArticolo(prefisso);
             contenutoLista.mostraRisultatiRicerca(risultati);
-            vistaOperazioni.mostraReset(true); // Mostra il tasto Reset
+            vistaOperazioni.mostraReset(true); // mostra il tasto Reset
         }
     }
 	
+	/**
+	 * Ripristina la visualizzazione normale della lista dopo una ricerca
+	 */
 	private void gestisciReset() {
         if (vistaOperazioni == null) return;
         
-        vistaOperazioni.pulisciCampo();   // Svuota il JTextField
-        vistaOperazioni.mostraReset(false); // Nasconde il tasto Reset
-        contenutoLista.updateView();      // Torna alla lista normale (solo attivi)
+        vistaOperazioni.pulisciCampo();   // svuota il JTextField
+        vistaOperazioni.mostraReset(false); // nasconde il tasto Reset
+        contenutoLista.updateView();      // torna alla lista normale (solo attivi)
     }
 }

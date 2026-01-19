@@ -43,7 +43,7 @@ public class Articolo{
 	/**
 	 * Espressione regolare per validare il formato del nome accetta caratteri alfanumerici anche con accenti
 	 */
-	private final String nomeRegex = "[A-Z][a-zA-Z0-9\\sàèéìòù]*";
+	private final String nomeRegex = "[a-zA-Z0-9àèéìòù][a-zA-Z0-9\\sàèéìòù]*";
 	
 	/**
 	 * Crea un nuovo {@code Articolo} completo di tutte le sue informazioni
@@ -62,7 +62,7 @@ public class Articolo{
 		nome = nome.trim(); 
 		
 		if(!validaNome(nome))
-	    	throw new ArticoloException("Il formato del nome non è valido, deve iniziare con la lettera maiuscola");
+	    	throw new ArticoloException("Il formato del nome non è valido");
 		
 		this.nome = nome;
 		this.setCategoria(categoria);

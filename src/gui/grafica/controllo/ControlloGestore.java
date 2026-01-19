@@ -2,6 +2,7 @@ package gui.grafica.controllo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -83,6 +84,16 @@ public class ControlloGestore implements ActionListener {
             case "Nuova Lista" -> gestisciNuovaLista();
 			case "Elimina Lista" -> gestisciEliminaLista();
 			case "Apri Selezionata" -> gestisciApriLista();
+			
+			case "Salva Sistema" -> gestisciSalvaSistema();
+	        case "Carica Sistema" -> gestisciCaricaSistema();
+        }
+        
+        // setta a true il valore modifica del GestoreListe
+        switch(comando) {
+        	case "Aggiungi Categoria", "Elimina Categoria", 
+        		 "Aggiungi Articolo", "Elimina Articolo", "Modifica Articolo",
+        		 "Nuova Lista", "Elimina Lista" -> GestioneListe.setModificato(true);
         }
 	}
 	
@@ -294,5 +305,42 @@ public class ControlloGestore implements ActionListener {
         
         if (vistaArticoli != null) 
         	vistaArticoli.aggiornaDati();
+    }
+    
+    
+    // FILE
+    /**
+     * Gestisce il salvataggio completo dei dati su file di testo.
+     * Cattura eventuali errori di scrittura (IOException).
+     */
+    private void gestisciSalvaSistema() {
+        try {
+            // Chiamata al metodo logico creato in GestioneListe
+            GestioneListe.salvaSistema("dati_sistema.txt");
+            JOptionPane.showMessageDialog(null, "Salvataggio completato con successo!");
+        } catch (IOException ex) {
+            // Gestione dell'anomalia come suggerito dalle slide [cite: 149]
+            JOptionPane.showMessageDialog(null, "Errore durante il salvataggio: " + ex.getMessage(), 
+                                          "Errore I/O", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Gestisce il caricamento dei dati da file.
+     * Dopo il caricamento, rinfresca tutte le tabelle per mostrare i nuovi dati.
+     */
+    private void gestisciCaricaSistema() {
+        try {
+            GestioneListe.caricaSistema("dati_sistema.txt");
+            // Fondamentale: aggiorna tutte le viste dopo aver ripristinato il modello
+            aggiornaTutto(); 
+            JOptionPane.showMessageDialog(null, "Dati caricati correttamente dal file.");
+        } catch (IOException ex) {
+            // FileNotFoundException è una sottoclasse di IOException [cite: 155]
+            JOptionPane.showMessageDialog(null, "File non trovato o illeggibile: " + ex.getMessage(), 
+                                          "Errore Caricamento", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Errore nel formato dei dati: " + ex.getMessage());
+        }
     }
 }

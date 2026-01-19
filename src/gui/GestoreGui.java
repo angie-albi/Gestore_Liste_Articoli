@@ -1,16 +1,14 @@
 package gui;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 import gui.grafica.controllo.ControlloGestore;
 import gui.grafica.vista.PannelloArticoliGlobali;
 import gui.grafica.vista.PannelloCategorie;
 import gui.grafica.vista.PannelloListe;
-import modello.Articolo;
 import modello.GestioneListe;
-import modello.ListaDiArticoli;
-import modello.exception.ListaDiArticoliException;
 
 /**
  * La classe {@code GestoreGui} rappresenta la finestra principale dell'interfaccia grafica
@@ -34,7 +32,33 @@ public class GestoreGui extends JFrame {
 	 */
 	public GestoreGui() {
 		setTitle("Gestore Liste");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		// prima della chiusura programma si avvisa l'utente che non ha eseguito il salvataggio
+		addWindowListener(new java.awt.event.WindowAdapter() {
+	        @Override
+	        public void windowClosing(java.awt.event.WindowEvent e) {
+	            if (GestioneListe.getModificato()) {
+	                int risposta = JOptionPane.showConfirmDialog(null, 
+	                    "Ci sono modifiche non salvate. Vuoi salvare prima di uscire?", 
+	                    "Salvataggio richiesto", JOptionPane.YES_NO_CANCEL_OPTION);
+	                
+	                if (risposta == JOptionPane.YES_OPTION) {
+	                    try {
+	                        GestioneListe.salvaSistema("dati_sistema.txt");
+	                        System.exit(0);
+	                    } catch (Exception ex) {
+	                        JOptionPane.showMessageDialog(null, "Errore nel salvataggio: " + ex.getMessage());
+	                    }
+	                } else if (risposta == JOptionPane.NO_OPTION) {
+	                    System.exit(0);
+	                }
+	            } else {
+	                System.exit(0);
+	            }
+	        }
+		});
+		
 		setSize(900, 600);
 		setLocationRelativeTo(null);
 
@@ -62,41 +86,31 @@ public class GestoreGui extends JFrame {
 	}
 
 	/**
-	 * Punto di ingresso dell'interfaccia grafica.
-	 * 
-	 * @param args Argomenti da riga di comando (non utilizzati).
-	 * @throws ListaDiArticoliException In caso di errori durante la creazione della lista di prova.
-	 */
-	public static void main(String[] args) throws ListaDiArticoliException {
-		try {
-	        // Creazione di una lista di esempio
-	        ListaDiArticoli spesa = new ListaDiArticoli("Spesa Settimanale");
-	        
-	        // Creazione di articoli con diverse categorie
-	        Articolo a1 = new Articolo("Latte", "Alimentari", 1.50, "Intero");
-	        Articolo a2 = new Articolo("Pane", "Alimentari", 2.00);
-	        Articolo a3 = new Articolo("Detersivo", "Pulizia", 5.50);
-	        
-	        // Inserimento negli elenchi globali (registra anche le categorie)
-	        GestioneListe.inserisciArticolo(a1);
-	        GestioneListe.inserisciArticolo(a2);
-	        GestioneListe.inserisciArticolo(a3);
-	        
-	        // Aggiunta alla lista specifica
-	        spesa.inserisciArticolo(a1);
-	        spesa.inserisciArticolo(a2);
-	        spesa.inserisciArticolo(a3);
-	        
-	        // Spostiamo un elemento nel cestino per testare i contatori
-	        spesa.cancellaArticolo(a2);
-	        
-	        // Registrazione della lista nel sistema
-	        GestioneListe.inserisciLista(spesa);
-	        
-	    } catch (Exception e) {
-	        System.err.println("Errore nel caricamento dati esempio: " + e.getMessage());
-	    }
+     * Punto di ingresso dell'applicazione. 
+     * Tenta il caricamento automatico dei dati prima di avviare la GUI.
+     * 
+     * @param args Argomenti da riga di comando
+     */
+	public static void main(String[] args){
+		String nomeFile = "dati_sistema.txt";
 
-		new GestoreGui();
+        try {
+            // tenta il ripristino automatico
+            GestioneListe.caricaSistema(nomeFile);
+            System.out.println("Dati caricati correttamente da " + nomeFile);
+            
+        } catch (java.io.FileNotFoundException e) {
+            // se il file non esiste
+            System.out.println("Nessun salvataggio trovato. Avvio con sistema vuoto.");
+            
+        } catch (Exception e) {
+            // altri errori
+            JOptionPane.showMessageDialog(null, 
+                "Si è verificato un errore nel caricamento automatico: " + e.getMessage(), 
+                "Errore di Caricamento", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+        
+        new GestoreGui();
 	}
 }

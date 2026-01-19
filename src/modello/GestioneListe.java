@@ -1,9 +1,10 @@
 package modello;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import modello.exception.GestioneListeException;
+import modello.exception.*;
 
 /**
  * La classe {@code GestioneListe} funge da centro di controllo statico per l'intero sistema
@@ -34,6 +35,27 @@ public class GestioneListe {
 	 * Nome della categoria predefinita assegnata agli articoli non categorizzati
 	 */
 	public static final String CATEGORIA_DEFAULT = "Non categorizzato";
+	
+	/**
+	 * Flag modifica, è true se si è eseguito una modfica ai dati del sistema, false altrimenti 
+	 */
+	private static boolean modificato = false; 
+
+	/**
+	 * Getter del flag modifica
+	 */
+    public static boolean getModificato() { 
+    	return modificato; 
+    }
+    
+    /**
+     * Setter del flag modifica
+     * 
+     * @param stato Stato della modifica, true o false
+     */
+    public static void setModificato(boolean stato) {
+    	modificato = stato; 
+    }
 	
 	/**
 	 * Costruttore privato per impedire l'istanziazione della classe
@@ -249,4 +271,117 @@ public class GestioneListe {
 	public static List<ListaDiArticoli> getListeArticoli() {
 	    return new ArrayList<>(listeArticoli);
 	}
+	
+	// Salvataggio e caricamento da file 
+	
+	/**
+     * Salva l'intero stato del sistema (categorie, registro articoli e tutte le liste) in un file.
+     * 
+     * @param nomeFile Il nome del file di salvataggio.
+     * @throws IOException In caso di errori di scrittura.
+     */
+    public static void salvaSistema(String nomeFile) throws IOException {
+        PrintWriter out = new PrintWriter(new File(nomeFile));
+
+        // salva categorie
+        for (String cat : categorie) {
+            out.println("CATEGORIA:" + cat);
+        }
+
+        // salva articoli
+        for (Articolo a : articoli) {
+            out.printf("ARTICOLO:%s:%s:%.2f:%s%n", 
+                a.getNome(), a.getCategoria(), a.getPrezzo(), a.getNota());
+        }
+
+        // salva liste e articoli all'interno
+        for (ListaDiArticoli l : listeArticoli) {
+            out.println("LISTA:" + l.getNome());
+            
+            List<Articolo> cancellati = l.getArticoliCancellati();
+            for (Articolo a : l) { 
+                if (cancellati.contains(a)) {
+                    out.println("CANCELLATO:" + a.getNome() + ":" + a.getCategoria());
+                } else {
+                    out.println("ATTIVO:" + a.getNome() + ":" + a.getCategoria());
+                }
+            }
+        }
+        out.close();
+        modificato = false;
+    }
+
+    /**
+     * Carica l'intero sistema da un file, ripristinando liste, articoli e categorie.
+     * 
+     * @param nomeFile Il file da cui caricare i dati.
+     * @throws IOException In caso di file mancante o errori di lettura.
+     * @throws Exception Per errori di validazione dei dati caricati.
+     */
+    public static void caricaSistema(String nomeFile) throws Exception {
+        reset(); 
+        
+        BufferedReader in = new BufferedReader(new FileReader(nomeFile));
+        String linea;
+        ListaDiArticoli listaCorrente = null;
+
+        while ((linea = in.readLine()) != null) {
+            String[] dati = linea.split(":");
+            if (dati.length < 2) continue;
+
+            String tag = dati[0];
+
+            switch (tag) {
+            	case "CATEGORIA" -> {
+            		// controllo
+	                if (!esisteCategoria(dati[1])) {
+	                    inserisciCategoria(dati[1]);
+	                }
+	            }
+                
+	            case "ARTICOLO" -> {
+	                double prezzo = Double.parseDouble(dati[3].replace(",", "."));
+	                String nota = (dati.length == 5) ? dati[4] : "";
+	                Articolo nuovo = new Articolo(dati[1], dati[2], prezzo, nota);
+	                
+	                // controllo
+	                if (!articoli.contains(nuovo)) {
+	                    inserisciArticolo(nuovo);
+	                }
+	            }
+                
+                case "LISTA" -> {
+                    listaCorrente = new ListaDiArticoli(dati[1]);
+                    inserisciLista(listaCorrente);
+                }
+                
+                case "ATTIVO" -> {
+                    Articolo a = trovaArticoloGlobale(dati[1], dati[2]);
+                    if (listaCorrente != null && a != null) listaCorrente.inserisciArticolo(a);
+                }
+                
+                case "CANCELLATO" -> {
+                    Articolo a = trovaArticoloGlobale(dati[1], dati[2]);
+                    if (listaCorrente != null && a != null) {
+                        listaCorrente.inserisciArticolo(a);
+                        listaCorrente.cancellaArticolo(a);
+                    }
+                }
+            }
+        }
+        in.close();
+        modificato = false;
+    }
+
+    /**
+     * Metodo di utilità per trovare un articolo nel registro globale durante il caricamento.
+     */
+    private static Articolo trovaArticoloGlobale(String nome, String categoria) {
+        for (Articolo a : articoli) {
+            if (a.getNome().equalsIgnoreCase(nome) && a.getCategoria().equalsIgnoreCase(categoria)) {
+                return a;
+            }
+        }
+        return null;
+    }
 }

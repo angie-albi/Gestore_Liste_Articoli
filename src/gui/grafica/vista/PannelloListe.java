@@ -3,6 +3,7 @@ package gui.grafica.vista;
 import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -57,18 +58,29 @@ public class PannelloListe extends JPanel {
 
 		// pannello Bottoni
 		JPanel bottoni = new JPanel();
+		
 		JButton btnCrea = new JButton("Nuova Lista");
 		JButton btnApri = new JButton("Apri Selezionata");
 		JButton btnElimina = new JButton("Elimina Lista");
+		
+		JButton btnSalva = new JButton("Salva Sistema");
+	    JButton btnCarica = new JButton("Carica Sistema");
 
 		// assegnazione del controller ai bottoni
 		btnCrea.addActionListener(controllo);
 		btnApri.addActionListener(controllo);
 		btnElimina.addActionListener(controllo);
+	
+		btnSalva.addActionListener(controllo); 
+	    btnCarica.addActionListener(controllo);
 
 		bottoni.add(btnCrea);
 		bottoni.add(btnApri);
 		bottoni.add(btnElimina);
+			bottoni.add(Box.createHorizontalStrut(40));
+		bottoni.add(btnSalva); 
+	    bottoni.add(btnCarica);
+	    
 		add(bottoni, BorderLayout.NORTH);
 
 		aggiornaDati();

@@ -69,30 +69,54 @@ public class Main {
 	
 	private static void caricaDatiEsempio() {
 	    try {
-	        // Creazione di una lista di esempio
+	        // --- LISTA 1: SPESA SETTIMANALE ---
 	        ListaDiArticoli spesa = new ListaDiArticoli("Spesa Settimanale");
-	        
-	        // Creazione di articoli con diverse categorie
 	        Articolo a1 = new Articolo("Latte", "Alimentari", 1.50, "Intero");
 	        Articolo a2 = new Articolo("Pane", "Alimentari", 2.00);
 	        Articolo a3 = new Articolo("Detersivo", "Pulizia", 5.50);
-	        
-	        // Inserimento negli elenchi globali (registra anche le categorie)
+
+	        // Registrazione globale e inserimento nella lista
 	        GestioneListe.inserisciArticolo(a1);
 	        GestioneListe.inserisciArticolo(a2);
 	        GestioneListe.inserisciArticolo(a3);
 	        
-	        // Aggiunta alla lista specifica
 	        spesa.inserisciArticolo(a1);
 	        spesa.inserisciArticolo(a2);
 	        spesa.inserisciArticolo(a3);
-	        
-	        // Spostiamo un elemento nel cestino per testare i contatori
-	        spesa.cancellaArticolo(a2);
-	        
-	        // Registrazione della lista nel sistema
+	        spesa.cancellaArticolo(a2); // Pane nel cestino
 	        GestioneListe.inserisciLista(spesa);
+
+	        // --- LISTA 2: PROGETTI BRICO ---
+	        ListaDiArticoli brico = new ListaDiArticoli("Lavori in Casa");
+	        Articolo b1 = new Articolo("Martello", "Attrezzi", 12.00);
+	        Articolo b2 = new Articolo("Vernice", "Bricolage", 25.40, "Colore Blu");
+	        Articolo b3 = new Articolo("Viti", "Ferramenta", 4.50, "Pacco da 100");
+
+	        GestioneListe.inserisciArticolo(b1);
+	        GestioneListe.inserisciArticolo(b2);
+	        GestioneListe.inserisciArticolo(b3);
 	        
+	        brico.inserisciArticolo(b1);
+	        brico.inserisciArticolo(b2);
+	        brico.inserisciArticolo(b3);
+	        brico.cancellaArticolo(b3); // Viti nel cestino
+	        GestioneListe.inserisciLista(brico);
+
+	        // --- LISTA 3: UFFICIO E TECNOLOGIA ---
+	        ListaDiArticoli ufficio = new ListaDiArticoli("Materiale Ufficio");
+	        Articolo u1 = new Articolo("Mouse", "Elettronica", 15.00);
+	        Articolo u2 = new Articolo("Tastiera", "Elettronica", 30.00, "Meccanica");
+	        Articolo u3 = new Articolo("Carta", "Cancelleria", 5.00, "A4 500 fogli");
+
+	        GestioneListe.inserisciArticolo(u1);
+	        GestioneListe.inserisciArticolo(u2);
+	        GestioneListe.inserisciArticolo(u3);
+	        
+	        ufficio.inserisciArticolo(u1);
+	        ufficio.inserisciArticolo(u2);
+	        ufficio.inserisciArticolo(u3);
+	        GestioneListe.inserisciLista(ufficio);
+
 	    } catch (Exception e) {
 	        System.err.println("Errore nel caricamento dati esempio: " + e.getMessage());
 	    }

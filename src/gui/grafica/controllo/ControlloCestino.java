@@ -10,6 +10,7 @@ import gui.grafica.vista.CestinoDialog;
 import gui.grafica.vista.ContentListaPanel;
 import gui.grafica.vista.PannelloListe;
 import modello.Articolo;
+import modello.GestioneListe;
 import modello.ListaDiArticoli;
 import modello.exception.ListaDiArticoliException;
 
@@ -78,6 +79,11 @@ public class ControlloCestino implements ActionListener{
             case "Recupera" -> gestisciRecupera();
             case "Svuota Cestino" -> gestisciSvuotaCestino();
             default -> System.out.println("Comando non riconosciuto nel cestino: " + comando);
+        }
+        
+        // setta a true il valore modifica del GestoreListe
+        switch(comando) {
+        	case "Recupera", "Svuota Cestino" -> GestioneListe.setModificato(true);
         }
         
         vistaCestino.aggiornaVista();   

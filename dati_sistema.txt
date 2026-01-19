@@ -1,0 +1,49 @@
+CATEGORIA:Non categorizzato
+CATEGORIA:Alimentari
+CATEGORIA:Pulizia
+CATEGORIA:Attrezzi
+CATEGORIA:Bricolage
+CATEGORIA:Ferramenta
+CATEGORIA:Elettronica
+CATEGORIA:Cancelleria
+CATEGORIA:Farmacia
+CATEGORIA:Sport
+ARTICOLO:Latte:Alimentari:1,50:Intero
+ARTICOLO:Pane:Alimentari:2,00:
+ARTICOLO:Detersivo:Pulizia:5,50:
+ARTICOLO:Martello:Attrezzi:12,00:
+ARTICOLO:Vernice:Bricolage:25,40:Colore Blu
+ARTICOLO:Viti:Ferramenta:4,50:Pacco da 100
+ARTICOLO:Mouse:Elettronica:15,00:
+ARTICOLO:Tastiera:Elettronica:30,00:Meccanica
+ARTICOLO:Carta:Cancelleria:5,00:A4 500 fogli
+ARTICOLO:Monitor:Elettronica:199,99:27 pollici 4K
+ARTICOLO:Caffè:Alimentari:3,50:Arabica
+ARTICOLO:Lampadina:Bricolage:2,50:LED 10W
+ARTICOLO:Aspirina:Farmacia:6,20:20 compresse
+ARTICOLO:Palla da Tennis:Sport:1,20:
+ARTICOLO:Torta:Alimentari:100,00:2 kg
+ARTICOLO:Palloncini:Non categorizzato:5,00:minimo 50 palloncini
+ARTICOLO:Piatti:Non categorizzato:10,50:30 invitati
+LISTA:Spesa Settimanale
+ATTIVO:Latte:Alimentari
+ATTIVO:Detersivo:Pulizia
+ATTIVO:Caffè:Alimentari
+CANCELLATO:Pane:Alimentari
+LISTA:Lavori in Casa
+ATTIVO:Martello:Attrezzi
+ATTIVO:Vernice:Bricolage
+ATTIVO:Lampadina:Bricolage
+CANCELLATO:Viti:Ferramenta
+LISTA:Materiale Ufficio
+ATTIVO:Mouse:Elettronica
+ATTIVO:Carta:Cancelleria
+ATTIVO:Monitor:Elettronica
+CANCELLATO:Tastiera:Elettronica
+LISTA:Hobby e Salute
+ATTIVO:Aspirina:Farmacia
+ATTIVO:Palla da Tennis:Sport
+LISTA:Compleanno Marco
+ATTIVO:Torta:Alimentari
+ATTIVO:Palloncini:Non categorizzato
+CANCELLATO:Piatti:Non categorizzato
