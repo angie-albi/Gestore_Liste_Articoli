@@ -41,17 +41,27 @@ Il software è progettato seguendo il pattern architetturale **MVC (Model-View-C
 L'organizzazione dei file segue rigorosamente la suddivisione tra logica (Model), interfaccia (View) e coordinamento (Controller):
 
 ```text
-src/
-├── main/               # Punto di ingresso (Main.java)
-├── modello/            # Logica di business e classi del dominio
-│ ├── exception/        # Eccezioni personalizzate
-│ └── test/             # Suite di test JUnit 5
-├── gui/                # Interfacce Utente
-│ ├── grafica/          # Vista e Controllo (Swing)
-│ └── rigaComando/      # Interfaccia testuale (CLI)
-└── jbook/util/         # Utility per l'input da tastiera
-
+.
+├── src/                # Codice sorgente Java
+│   ├── main/           # Punto di ingresso (Main.java)
+│   ├── modello/        # Logica di business e classi del dominio
+│   ├── gui/            # Interfacce Utente (Grafica e CLI)
+│   └── jbook/util/     # Utility per l'input
+├── doc/                # Documentazione Javadoc generata
+│   └── index.html      # Punto di accesso alla documentazione web
+├── dati_sistema.txt    # File di persistenza dati
+└── Relazione.pdf       # Documentazione tecnica del progetto
 ```
+
+---
+
+## 📖 Documentazione Javadoc
+
+Il progetto è interamente documentato tramite Javadoc. Per consultare la documentazione tecnica completa in formato ipertestuale:
+
+1. Navigare all'interno della cartella `doc/` del progetto.
+2. Aprire il file **`index.html`** utilizzando un qualsiasi browser web (es. Chrome, Firefox, Edge).
+3. All'interno del portale sarà possibile esplorare la gerarchia delle classi, i metodi e le eccezioni personalizzate utilizzate nello sviluppo.
 
 ---
 
@@ -63,6 +73,25 @@ I test coprono:
 * ✅ **Articolo:** Validazione dei nomi tramite Regex, gestione prezzi negativi e logica di uguaglianza basata su nome e categoria.
 * ✅ **Lista:** Gestione corretta del cestino (inserimento/recupero), ripristino articoli e calcolo del totale.
 * ✅ **Gestore:** Verifica dell'integrità dei registri globali e della corretta associazione tra articoli e categorie condivise.
+
+---
+
+## 💻 Importazione in Eclipse IDE
+
+Per integrare il progetto nell'ambiente di sviluppo Eclipse, si prega di seguire la procedura rapida tramite File System:
+
+1. **Apertura**: Selezionare il menu **File** e cliccare sulla voce **Open Projects from File System...**.
+2. **Selezione della directory**: Nella finestra di dialogo, cliccare sul pulsante **Directory...** e individuare la cartella radice del progetto (quella contenente le cartelle `src` e `doc`).
+3. **Conferma**: Verificare che la casella corrispondente al progetto sia selezionata e premere **Finish**. Eclipse configurerà automaticamente l'ambiente e il *Build Path*.
+
+---
+
+## 🚀 Modalità di Esecuzione (da Eclipse)
+
+Una volta completata l'importazione, l'applicazione può essere avviata dal *Package Explorer* seguendo uno di questi percorsi:
+
+* **Main Entry Point**: Cliccare con il tasto destro su `src/main/Main.java` e selezionare **Run As > Java Application**. Questa opzione permette di scegliere tra interfaccia testuale e grafica.
+* **Direct GUI**: Cliccare con il tasto destro su `src/gui/GestoreGui.java` e selezionare **Run As > Java Application** per lanciare direttamente l'ambiente grafico.
 
 ---
 
