@@ -238,6 +238,13 @@ public class ControlloGestore implements ActionListener {
         }
     }
     
+    /**Gestisce la modifica dei dati di un articolo nel registro globale del sistema.
+	 * Se la nuova categoria specificata non esiste nell'anagrafica, viene creata automaticamente.
+	 * Dopo la modifica, tutte le viste del sistema vengono aggiornate per riflettere i cambiamenti.
+	 * <p>
+	 * Gli articoli sono condivisi tra le liste, le modifiche
+	 * effettuate qui si propagano automaticamente a tutte le liste che contengono l'articolo.
+	 */
     private void gestisciModificaArticoloGlobale() {
     	Articolo sel = vistaArticoli.getArticoloSelezionato();
         if (sel == null) {
@@ -274,7 +281,6 @@ public class ControlloGestore implements ActionListener {
             }
         }
     }
-    
     
     /**
      * Metodo centralizzato per rinfrescare tutte le tabelle del gestore principale.

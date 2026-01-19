@@ -16,24 +16,54 @@ import modello.Articolo;
 import modello.GestioneListe;
 
 /**
- * Vista che mostra il registro globale di tutti gli articoli presenti nel sistema.
+ * La classe {@code PannelloArticoliGlobali} rappresenta l'interfaccia utente per la gestione
+ * del registro globale degli articoli del sistema
+ * <p>
+ * Questo pannello visualizza in formato tabellare l'anagrafica completa di tutti gli articoli
+ * registrati nel sistema tramite {@link GestioneListe}, mostrando per ciascun articolo:
+ * <ul>
+ *   <li>Nome identificativo</li>
+ *   <li>Categoria merceologica di appartenenza</li>
+ *   <li>Prezzo unitario</li>
+ *   <li>Nota descrittiva opzionale</li>
+ * </ul>
+ * 
+ * <p>Fornisce i comandi per aggiungere nuovi articoli al registro globale,
+ * eliminare articoli esistenti o modificarne i dati.
+ * 
+ * <p>Gli articoli presenti in questo registro sono condivisi
+ * tra tutte le liste del sistema. La modifica di un articolo qui si riflette
+ * automaticamente in tutte le liste che lo contengono.
+ * 
+ * @author Angie Albitres
  */
 @SuppressWarnings("serial")
 public class PannelloArticoliGlobali extends JPanel{
 	private JTable tabellaArticoli;
     private DefaultTableModel tableModel;
 
+    /**
+     * Costruisce il pannello degli articoli globali inizializzando la tabella
+     * e i comandi disponibili.
+     * <p>
+     * Configura il layout, crea i pulsanti per l'aggiunta, l'eliminazione e la modifica
+     * degli articoli, e collega il controller per la gestione degli eventi.
+     * La tabella viene configurata in modalità di selezione singola e con celle
+     * non modificabili direttamente.
+     * 
+     * @param controllo Il controller {@link ControlloGestore} che gestisce la logica
+     * delle operazioni sugli articoli globali
+     */
     public PannelloArticoliGlobali(ControlloGestore controllo) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
 
-        // Definizione delle colonne (Anagrafica globale)
         String[] colonne = {"Nome", "Categoria", "Prezzo (€)", "Nota"};
         
         tableModel = new DefaultTableModel(colonne, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Celle non modificabili direttamente in tabella
+                return false; // celle non modificabili direttamente in tabella
             }
         };
 
@@ -64,7 +94,12 @@ public class PannelloArticoliGlobali extends JPanel{
     }
 
     /**
-     * Ricarica la tabella leggendo dal registro statico di GestioneListe.
+     * Sincronizza la visualizzazione della tabella con i dati correnti del registro globale.
+     * <p>
+     * Svuota completamente la tabella e la ripopola con tutti gli articoli presenti
+     * nell'anagrafica centrale gestita da {@link GestioneListe}.
+     * Per ogni articolo vengono visualizzati nome, categoria, prezzo formattato
+     * con due decimali e nota descrittiva.
      */
     public void aggiornaDati() {
         tableModel.setRowCount(0);
@@ -83,7 +118,15 @@ public class PannelloArticoliGlobali extends JPanel{
     }
 
     /**
-     * Identifica l'articolo selezionato nella tabella.
+     * Identifica e restituisce l'articolo corrispondente alla riga attualmente
+     * selezionata nella tabella.
+     * <p>
+     * La ricerca viene effettuata nel registro globale confrontando nome e categoria
+     * (case-insensitive) dell'articolo visualizzato con quelli presenti in {@link GestioneListe}.
+     * 
+     * @return L'oggetto {@code Articolo} selezionato dal registro globale,
+     * oppure {@code null} se non c'è alcuna selezione o se l'articolo
+     * non viene trovato nel registro
      */
     public Articolo getArticoloSelezionato() {
         int riga = tabellaArticoli.getSelectedRow();
