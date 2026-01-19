@@ -1,5 +1,7 @@
 package modello;
 
+import java.util.Objects;
+
 import modello.exception.ArticoloException;
 
 /**
@@ -181,7 +183,9 @@ public class Articolo{
 	 * Controlla che il prezzo sia valido
 	 * 
 	 * @param prezzo Prezzo da validare
+	 * 
 	 * @return Il prezzo se è valido
+	 * 
 	 * @throws ArticoloException  Viene lanciata se il prezzo è negativo 
 	 */
 	private double validaPrezzo(double prezzo) throws ArticoloException {
@@ -195,12 +199,24 @@ public class Articolo{
 	 * Controlla che il nome sia vlido
 	 * 
 	 * @param nome Nome da validare
+	 * 
 	 * @return true se il nome è valido, false altrimenti
 	 */
 	private boolean validaNome(String nome) {
 		return nome.matches(nomeRegex);
 	}
 
+	/**
+	 * Calcola il codice hash dell'articolo basandosi su nome e categoria.
+	 * Questo metodo è fondamentale per il corretto funzionamento nelle collezioni basate su hash.
+	 *
+	 * @return Un valore intero che rappresenta il codice hash dell'oggetto.
+	 */
+	@Override
+	public int hashCode() {
+	    return Objects.hash(nome.toLowerCase(), categoria.toLowerCase());
+	}
+	
 	/**
 	 * Confronta l'articolo corrente con un altro oggetto per verificarne l'uguaglianza
 	 * Due articoli sono considerati uguali se hanno lo stesso nome e la stessa categoria (senza distinzione tra maiuscole e minuscole)
@@ -223,6 +239,7 @@ public class Articolo{
 	
 	/**
 	 * Restituisce una descrizione testuale dell'articolo
+	 * 
 	 * @return Una stringa con i dati dell'articolo
 	 */
 	@Override

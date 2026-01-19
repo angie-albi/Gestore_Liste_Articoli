@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-
+import java.util.Objects;
 
 import modello.exception.ArticoloException;
 import modello.exception.ListaDiArticoliException;
@@ -287,6 +287,31 @@ public class ListaDiArticoli implements Iterable<Articolo>{
 	    this.articoli.remove(a);
 	    this.articoliCancellati.remove(a);
 	}
+	
+	/**
+     * Confronta questa lista con un'altra per verificarne l'uguaglianza basandosi sul nome.
+     * 
+     * @param obj L'oggetto da confrontare.
+     * 
+     * @return true se le liste hanno lo stesso nome (case-insensitive), false altrimenti.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ListaDiArticoli other = (ListaDiArticoli) obj;
+        return nome.equalsIgnoreCase(other.nome);
+    }
+
+    /**
+     * Calcola il codice hash della lista basandosi sul nome.
+     * 
+     * @return Il codice hash calcolato.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome.toLowerCase());
+    }
 	
 	/**
 	 * Fornisce una rappresentazione testuale della lista e dei suoi articoli

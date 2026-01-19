@@ -320,11 +320,9 @@ public class ControlloGestore implements ActionListener {
      */
     private void gestisciSalvaSistema() {
         try {
-            // Chiamata al metodo logico creato in GestioneListe
             GestioneListe.salvaSistema("dati_sistema.txt");
             JOptionPane.showMessageDialog(null, "Salvataggio completato con successo!");
         } catch (IOException ex) {
-            // Gestione dell'anomalia come suggerito dalle slide [cite: 149]
             JOptionPane.showMessageDialog(null, "Errore durante il salvataggio: " + ex.getMessage(), 
                                           "Errore I/O", JOptionPane.ERROR_MESSAGE);
         }
@@ -337,11 +335,9 @@ public class ControlloGestore implements ActionListener {
     private void gestisciCaricaSistema() {
         try {
             GestioneListe.caricaSistema("dati_sistema.txt");
-            // Fondamentale: aggiorna tutte le viste dopo aver ripristinato il modello
             aggiornaTutto(); 
             JOptionPane.showMessageDialog(null, "Dati caricati correttamente dal file.");
         } catch (IOException ex) {
-            // FileNotFoundException è una sottoclasse di IOException [cite: 155]
             JOptionPane.showMessageDialog(null, "File non trovato o illeggibile: " + ex.getMessage(), 
                                           "Errore Caricamento", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {

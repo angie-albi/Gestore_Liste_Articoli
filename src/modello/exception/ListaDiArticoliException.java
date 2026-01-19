@@ -9,11 +9,17 @@ package modello.exception;
 @SuppressWarnings("serial")
 public class ListaDiArticoliException extends Exception{
 	/**
-	 * Crea una nuova eccezione con il messaggio di errore indicato
-	 * 
-	 * @param messaggio Descrizione dell'errore
-	 */
-	public ListaDiArticoliException(String messaggio) {
+     * Crea una nuova eccezione senza un messaggio di errore specifico.
+     */
+    public ListaDiArticoliException() {
+        super();
+    }
+
+    /**
+     * Crea una nuova eccezione con il messaggio di errore indicato.
+     * * @param messaggio Descrizione dell'errore.
+     */
+    public ListaDiArticoliException(String messaggio) {
         super(messaggio);
     }
 }

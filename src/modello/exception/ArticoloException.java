@@ -9,11 +9,18 @@ package modello.exception;
 @SuppressWarnings("serial")
 public class ArticoloException extends Exception{
 	/**
-	 * Crea una nuova eccezione con il messaggio di errore indicato
-	 * 
-	 * @param messaggio Descrizione dell'errore
-	 */
-	public ArticoloException(String messaggio) {
+     * Crea una nuova eccezione senza un messaggio di errore specifico.
+     */
+    public ArticoloException() {
+        super();
+    }
+
+    /**
+     * Crea una nuova eccezione con il messaggio di errore indicato.
+     * 
+     * @param messaggio Descrizione dell'errore.
+     */
+    public ArticoloException(String messaggio) {
         super(messaggio);
     }
 }
