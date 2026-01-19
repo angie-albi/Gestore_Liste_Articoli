@@ -42,42 +42,15 @@ L'organizzazione dei file segue rigorosamente la suddivisione tra logica (Model)
 
 ```text
 src/
-├── main/
-│   └── Main.java                      # Punto di ingresso dell'applicazione
-├── modello/                           # Logica di business
-│   ├── Articolo.java
-│   ├── ListaDiArticoli.java
-│   ├── GestioneListe.java
-│   ├── exception/                     # Eccezioni personalizzate
-│   │   ├── ArticoloException.java
-│   │   ├── ListaDiArticoliException.java
-│   │   └── GestioneListeException.java
-│   └── test/                          # Test unitari JUnit 5
-│       ├── ArticoloTest.java
-│       ├── ListaDiArticoliTest.java
-│       └── GestioneListeTest.java
-├── gui/                               # Interfacce utente e controllori
-│   ├── GestoreGui.java
-│   ├── ListaGui.java
-│   ├── rigaComando/
-│   │   └── InterfacciaRigaDiComando.java
-│   └── grafica/
-│       ├── controllo/                 # Controller per la GUI
-│       │   ├── ControlloGestore.java
-│       │   ├── ControlloLista.java
-│       │   └── ControlloCestino.java
-│       └── vista/                     # Componenti grafiche (View)
-│           ├── PannelloListe.java
-│           ├── PannelloCategorie.java
-│           ├── PannelloArticoliGlobali.java
-│           ├── OpsListaPanel.java
-│           ├── ListaPanel.java
-│           ├── DialogoArticolo.java
-│           ├── ContentListaPanel.java
-│           └── CestinoDialog.java
-└── jbook/
-    └── util/
-        └── Input.java                 # Utility per l'input da tastiera
+├── main/               # Punto di ingresso (Main.java)
+├── modello/            # Logica di business e classi del dominio
+│ ├── exception/        # Eccezioni personalizzate
+│ └── test/             # Suite di test JUnit 5
+├── gui/                # Interfacce Utente
+│ ├── grafica/          # Vista e Controllo (Swing)
+│ └── rigaComando/      # Interfaccia testuale (CLI)
+└── jbook/util/         # Utility per l'input da tastiera
+
 ```
 
 ---
@@ -99,7 +72,7 @@ Segui questi passaggi per configurare il progetto in locale:
 
 1. **Clona la repository:**
    ```bash
-   git clone [https://github.com/angie-albi/progetto_paradigmi.git](https://github.com/angie-albi/progetto_paradigmi.git)
+   git clone https://github.com/angie-albi/progetto_paradigmi.git
    ```
 2. **Entra nella cartella:**
    ```bash
