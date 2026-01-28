@@ -101,11 +101,11 @@ Segui questi passaggi per configurare il progetto in locale:
 
 1. **Clona la repository:**
    ```bash
-   git clone https://github.com/angie-albi/progetto_paradigmi.git
+   git clone https://github.com/angie-albi/Gestore_Liste_Articoli.git
    ```
 2. **Entra nella cartella:**
    ```bash
-   cd progetto_paradigmi
+   cd Gestore_Liste_Articoli
    ```
 3. **Compilazione:**
    ```bash
